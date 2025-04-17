@@ -6,3 +6,9 @@ python-dotenv==1.0.0
 psycopg2-binary==2.9.5
 whitenoise==6.5.0
 gunicorn==20.1.0
+django-cors-headers
+PyJWT
+pytz
+sqlparse
+asgiref
+
