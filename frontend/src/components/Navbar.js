@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
 
+// FontAwesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDroplet } from '@fortawesome/free-solid-svg-icons';
+
 const Navbar = ({ logout, isAuthenticated }) => {
     const navigate = useNavigate();
 
@@ -14,8 +18,12 @@ const Navbar = ({ logout, isAuthenticated }) => {
     const guestLinks = (
         <>
             <li className='nav-item'>
+                <Link className='nav-link' to='/projects'>Projects</Link>
+            </li>
+            <li className='nav-item'>
                 <Link className='nav-link' to='/login'>Login</Link>
             </li>
+            
             <li className='nav-item'>
                 <Link className='nav-link' to='/signup'>Sign Up</Link>
             </li>
@@ -23,14 +31,19 @@ const Navbar = ({ logout, isAuthenticated }) => {
     );
 
     const authLinks = (
-        <li className='nav-item'>
-            <button 
-                className='nav-link btn btn-link' 
-                onClick={logout_user}
-            >
-                Logout
-            </button>
-        </li>
+        <>
+            <li className='nav-item'>
+                <Link className='nav-link' to='/projects'>Projects</Link>
+            </li>
+            <li className='nav-item'>
+                <button 
+                    className='nav-link btn btn-link' 
+                    onClick={logout_user}
+                >
+                    Logout
+                </button>
+            </li>
+        </>
     );
 
     return (
@@ -55,6 +68,17 @@ const Navbar = ({ logout, isAuthenticated }) => {
                         </li>
                     </ul>
                     <ul className='navbar-nav'>
+
+                        {/* Add Donate link here - available to all users */}
+                        <li className='nav-item me-2'>
+                            <Link 
+                                to='/donate' 
+                                className='nav-link donate-button'
+                            >
+                                DONATE
+                                <FontAwesomeIcon icon={faDroplet} className="water-icon" />
+                            </Link>
+                        </li>
                         {isAuthenticated ? authLinks : guestLinks}
                     </ul>
                 </div>
@@ -62,7 +86,6 @@ const Navbar = ({ logout, isAuthenticated }) => {
         </nav>
     );
 };
-
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 });
