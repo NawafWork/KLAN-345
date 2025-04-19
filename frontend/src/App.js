@@ -8,6 +8,15 @@ import ResetPasswordConfirm from './containers/ResetPasswordConfirm';
 import Activate from './containers/Activate';
 import Layout from './hocs/Layout';
 
+import Projects from './containers/Projects';
+import ProjectDetail from './containers/ProjectDetail';
+import ProjectCreate from './containers/ProjectCreate';
+import ProjectEdit from './containers/ProjectEdit';
+
+import Donate from './containers/Donate';
+
+import './styles/custom.css';
+
 import { Provider } from 'react-redux';
 import store from './store';
 
@@ -23,6 +32,19 @@ const App = () => {
                         <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm />} />
                         <Route path="/activate/:uid/:token" element={<Activate />} />
+
+                        {/* Project Routes */}
+                        <Route path="/projects" element={<Projects />} />
+                        <Route path="/projects/:id" element={<ProjectDetail />} />
+                        <Route path="/projects/create" element={<ProjectCreate />} />
+                        <Route path="/projects/edit/:id" element={<ProjectEdit />} />
+
+
+                        {/* Donation Route */}
+                        <Route path="/donate" element={<Donate />} />
+                        
+                        {/* 404 Not Found */}
+                        <Route path="*" element={<h1>404 Not Found</h1>} />
                     </Routes>
                 </Layout>
             </BrowserRouter>

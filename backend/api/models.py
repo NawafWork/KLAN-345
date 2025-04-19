@@ -9,9 +9,11 @@
 #     goal_amount = models.DecimalField(max_digits=10, decimal_places=2)
 #     amount_raised = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 #     start_date = models.DateTimeField(default=now)
-#     end_date = models.DateTimeField()
+#     end_date = models.DateTimeField() 
 #     created_at = models.DateTimeField(auto_now_add=True)
 #     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
+#     image = models.ImageField(upload_to='project_images/', blank=True, null=True)
+#     # Add any other fields you need, like location, city, etc.
     
     
 #     @property
