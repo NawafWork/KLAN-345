@@ -1,0 +1,169 @@
+.about-container {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.content-overlay {
+    background-color: rgba(255, 255, 255, 0.85);
+    min-height: 100vh;
+    padding: 4rem 2rem;
+}
+
+.about-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.about-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.about-content section {
+    margin-bottom: 4rem;
+}
+
+.about-content h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+.mission-section,
+.impact-section,
+.team-section,
+.contact-section {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(5px);
+}
+
+.impact-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4169E1;
+}
+
+.team-section, .contact-section {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.contact-section a {
+    color: #4169E1;
+    text-decoration: none;
+}
+
+.contact-section a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .about-container {
+        padding: 2rem 1rem;
+    }
+    
+    .impact-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+.executive-team {
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.team-title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 3rem;
+}
+
+.team-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.team-member {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+}
+
+.member-photo-wrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    border: 4px solid #FFD700;
+    overflow: hidden;
+}
+
+.member-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.member-photo:hover {
+    transform: scale(1.1);
+}
+
+.member-info {
+    text-align: center;
+}
+
+.member-role {
+    color: #4169E1;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.member-name {
+    color: #333;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .team-grid {
+        gap: 3rem;
+    }
+    
+    .member-photo-wrapper {
+        width: 150px;
+        height: 150px;
+    }
+}
