@@ -27,6 +27,7 @@ const Navbar = ({ logout, isAuthenticated }) => {
             <li className='nav-item'>
                 <Link className='nav-link' to='/signup'>Sign Up</Link>
             </li>
+            
         </>
     );
 
@@ -78,6 +79,9 @@ const Navbar = ({ logout, isAuthenticated }) => {
                                 DONATE
                                 <FontAwesomeIcon icon={faDroplet} className="water-icon" />
                             </Link>
+                        </li>
+                        <li className='nav-item'>
+                            <Link className='nav-link' to='/about'>About Us</Link>
                         </li>
                         {isAuthenticated ? authLinks : guestLinks}
                     </ul>

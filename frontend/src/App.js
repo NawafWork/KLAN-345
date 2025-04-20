@@ -5,6 +5,7 @@ import Login from './containers/Login';
 import ResetPassword from './containers/ResetPassword';
 import Signup from './containers/Signup';
 import ResetPasswordConfirm from './containers/ResetPasswordConfirm';
+import About from './containers/About';
 import Activate from './containers/Activate';
 import Layout from './hocs/Layout';
 
@@ -32,6 +33,7 @@ const App = () => {
                         <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm />} />
                         <Route path="/activate/:uid/:token" element={<Activate />} />
+                        <Route path="/about" element={<About />} />
 
                         {/* Project Routes */}
                         <Route path="/projects" element={<Projects />} />
