@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CharityProject
+from .models import CharityProject, Donation
 from accounts.serializers import UserSerializer
 
 class CharityProjectSerializer(serializers.ModelSerializer):
@@ -25,3 +25,16 @@ class CharityProjectSerializer(serializers.ModelSerializer):
         # Set default value for amount_raised if not provided
         validated_data['amount_raised'] = validated_data.get('amount_raised', 0.00)
         return super().create(validated_data)
+    
+
+class ProjectMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CharityProject
+        fields = ['id', 'title', 'goal_amount', 'amount_raised']
+
+class DonationSerializer(serializers.ModelSerializer):
+    project = ProjectMinimalSerializer(read_only=True)
+    
+    class Meta:
+        model = Donation
+        fields = ['id', 'amount', 'date', 'transaction_id', 'project']
