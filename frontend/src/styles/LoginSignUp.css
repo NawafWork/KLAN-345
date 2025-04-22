@@ -1,0 +1,7 @@
+
+body {
+    background-image: url('../images/loginsignup_background.jpg');
+    background-size: cover;
+    height: 100vh; /* Ensure it covers the full viewport */
+    width: 100%;
+}

@@ -8,6 +8,7 @@ import ResetPasswordConfirm from './containers/ResetPasswordConfirm';
 import About from './containers/About';
 import Activate from './containers/Activate';
 import Layout from './hocs/Layout';
+import MyAccount from './containers/MyAccount';
 
 import Projects from './containers/Projects';
 import ProjectDetail from './containers/ProjectDetail';
@@ -34,7 +35,7 @@ const App = () => {
                         <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm />} />
                         <Route path="/activate/:uid/:token" element={<Activate />} />
                         <Route path="/about" element={<About />} />
-
+                        <Route path="/myaccount" element={<MyAccount />} />
                         {/* Project Routes */}
                         <Route path="/projects" element={<Projects />} />
                         <Route path="/projects/:id" element={<ProjectDetail />} />
