@@ -1,4 +1,8 @@
 .about-container {
+    background-image: url('../images/aboutus_background.jpg');
+    background-size: cover;
+    background-repeat: repeat;
+    background-position: center;
     padding: 4rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
@@ -16,9 +20,11 @@
 }
 
 .about-header h1 {
+    text-align: center;
     font-size: 2.5rem;
     color: #333;
     margin-bottom: 1rem;
+    font-weight: bold;
 }
 
 .about-content section {
@@ -26,9 +32,11 @@
 }
 
 .about-content h2 {
+    text-align: center;
     color: #2c3e50;
     margin-bottom: 1.5rem;
     font-size: 2rem;
+    font-weight: bold;
 }
 
 .mission-section,

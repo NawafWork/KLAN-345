@@ -14,17 +14,17 @@ const About = () => {
             image: executiveTeam1
         },
         {
-            name: "Than AN",
+            name: "Thanh An Lu",
             role: "CEO",
             image: executiveTeam2
         },
         {
-            name: "Alan serfy",
+            name: "Alan Serfaty",
             role: "CEO",
             image: executiveTeam3
         },
         {
-            name: "Nawaf A",
+            name: "Nawaf Alshahrani",
             role: "CEO",
             image: executiveTeam4
         }
@@ -38,8 +38,9 @@ const About = () => {
                 <section className="mission-section">
                     <h2>Our Mission</h2>
                     <p>
-                        We strive to provide clean and accessible water to communities in need around the world. 
-                        Through our platform, we connect donors with meaningful water projects that create lasting impact.
+                    At Water Charity, our mission is to bring clean, safe, and sustainable water to communities in need.
+                    We believe that access to clean water is a basic human right — one that empowers health, education, and economic opportunity.
+                    Through local partnerships, innovative solutions, and the power of community, we are committed to creating lasting change, one drop at a time.
                     </p>
                 </section>
 
