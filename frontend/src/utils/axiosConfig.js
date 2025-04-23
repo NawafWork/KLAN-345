@@ -1,8 +1,7 @@
-// src/utils/axiosConfig.js
 import axios from 'axios';
 
-// Set default baseURL
-axios.defaults.baseURL = 'http://localhost:8000';
+const apiUrl = window?.configs?.apiUrl || 'http://localhost:8000';
+axios.defaults.baseURL = apiUrl;
 
 // Add a request interceptor to add JWT token
 axios.interceptors.request.use(
