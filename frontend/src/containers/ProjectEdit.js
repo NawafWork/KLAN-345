@@ -48,8 +48,8 @@ const ProjectEdit = ({
                 longitude: project.longitude || '',
                 image: null
             });
-            if (project.image) {
-                setImagePreview(project.image);
+            if (project.image_url) {
+                setImagePreview(project.image_url);
             }
         }
     }, [project]);
@@ -67,30 +67,33 @@ const ProjectEdit = ({
     
     const onChange = e => {
         if (e.target.name === 'image') {
-            setFormData({ ...formData, image: e.target.files[0] });
+            const file = e.target.files[0];
+            setFormData({ ...formData, image: file });
             
-            // Create preview
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(e.target.files[0]);
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setImagePreview(reader.result);
+                };
+                reader.readAsDataURL(file);
+            }
         } else {
             setFormData({ ...formData, [e.target.name]: e.target.value });
         }
     };
     
-    const onSubmit = e => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         
         const projectData = new FormData();
+        
         Object.keys(formData).forEach(key => {
-            if (formData[key] !== null && formData[key] !== '') {
+            if (formData[key] !== null && formData[key] !== undefined) {
                 projectData.append(key, formData[key]);
             }
         });
-        
-        updateProject(id, projectData, navigate);
+
+        await updateProject(id, projectData, navigate);
     };
     
     if (loading) {

@@ -1,0 +1,32 @@
+.project-marker {
+    background-color: #FF4742;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.project-marker:hover {
+    transform: scale(1.2);
+    background-color: #FF2420;
+}
+
+.map-popup {
+    padding: 12px;
+    max-width: 220px;
+}
+
+.map-popup h6 {
+    margin: 0 0 8px 0;
+    font-weight: 600;
+    color: #333;
+}
+
+.map-popup p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}

@@ -1,6 +1,12 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+import os
+
+def project_image_path(instance, filename):
+    # Generate unique file path: projects/user_id/project_id/filename
+    return f'projects/{instance.created_by.id}/{instance.id}/{filename}'
+
 
 class CharityProject(models.Model):
     title = models.CharField(max_length=100)
@@ -9,7 +15,11 @@ class CharityProject(models.Model):
     amount_raised = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     start_date = models.DateField()
     end_date = models.DateField()
-    image = models.ImageField(upload_to='charity_images/', blank=True, null=True)
+    image = models.ImageField(
+        upload_to=project_image_path,
+        null=True,
+        blank=True
+    )
     location = models.CharField(max_length=255, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
@@ -20,6 +30,25 @@ class CharityProject(models.Model):
         on_delete=models.CASCADE,
         related_name='charities'
     )
+
+    def save(self, *args, **kwargs):
+        # Delete old image file when updating
+        if self.pk:
+            try:
+                old_instance = CharityProject.objects.get(pk=self.pk)
+                if old_instance.image and self.image != old_instance.image:
+                    if os.path.isfile(old_instance.image.path):
+                        os.remove(old_instance.image.path)
+            except CharityProject.DoesNotExist:
+                pass
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        # Delete image file when deleting project
+        if self.image:
+            if os.path.isfile(self.image.path):
+                os.remove(self.image.path)
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.title

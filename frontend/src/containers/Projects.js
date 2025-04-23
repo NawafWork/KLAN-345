@@ -1,13 +1,16 @@
-// src/containers/Projects.js
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getProjects } from '../actions/projects';
 
+import ProjectsMap from './ProjectsMap';
+
 const Projects = ({ getProjects, projects: { projects, loading }, isAuthenticated }) => {
     useEffect(() => {
         getProjects();
     }, [getProjects]);
+
+    const hasLocations = projects.some(project => project.latitude && project.longitude);
 
     return loading ? (
         <div>Loading...</div>
@@ -27,9 +30,9 @@ const Projects = ({ getProjects, projects: { projects, loading }, isAuthenticate
                     projects.map(project => (
                         <div className="col-md-4 mb-4" key={project.id}>
                             <div className="card h-100">
-                                {project.image && (
+                                {project.image_url && (
                                     <img 
-                                        src={project.image} 
+                                        src={project.image_url} 
                                         className="card-img-top" 
                                         alt={project.title}
                                         style={{ height: '200px', objectFit: 'cover' }}
@@ -76,7 +79,24 @@ const Projects = ({ getProjects, projects: { projects, loading }, isAuthenticate
                         <p>No projects found</p>
                     </div>
                 )}
+                {hasLocations && (
+                    <div className="col-lg-4">
+                        <div className="sticky-top" style={{ top: '2rem' }}>
+                            <div className="card">
+                                <div className="card-body">
+                                    <h5 className="card-title">Project Locations</h5>
+                                    <div style={{ height: '600px', width: '100%' }}>
+                                        <ProjectsMap 
+                                            projects={projects.filter(p => p.latitude && p.longitude)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
+                
         </div>
     );
 };

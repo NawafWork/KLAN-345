@@ -15,7 +15,7 @@ import ProjectCreate from './containers/ProjectCreate';
 import ProjectEdit from './containers/ProjectEdit';
 
 import Donate from './containers/Donate';
-
+import UserProfile from './containers/UserProfile';
 import './styles/custom.css';
 
 import { Provider } from 'react-redux';
@@ -44,6 +44,7 @@ const App = () => {
 
                         {/* Donation Route */}
                         <Route path="/donate" element={<Donate />} />
+                        <Route path="/profile" element={<UserProfile />} />
                         
                         {/* 404 Not Found */}
                         <Route path="*" element={<h1>404 Not Found</h1>} />

@@ -8,6 +8,9 @@ import { getProject, deleteProject } from '../actions/projects';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDroplet } from '@fortawesome/free-solid-svg-icons';
 
+//Map
+import Map from './Mapbox';
+
 const ProjectDetail = ({ 
     getProject, 
     deleteProject, 
@@ -29,10 +32,14 @@ const ProjectDetail = ({
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-8">
-                    {project.image && (
+                    {project.image_url && (
                         <img 
-                            src={project.image} 
+                            src={`${process.env.REACT_APP_API_URL}${project.image_url}`}
                             alt={project.title} 
+                            onError={(e) => {
+                                console.error('Image failed to load:', project.image_url);
+                                e.target.style.display = 'none';
+                            }}
                             className="img-fluid mb-4"
                             style={{ maxHeight: '400px', width: '100%', objectFit: 'cover' }}
                         />
@@ -102,8 +109,15 @@ const ProjectDetail = ({
                                 <h5 className="card-title">Project Location</h5>
                                 <div style={{ height: '200px', backgroundColor: '#eee' }}>
                                     {/* Map component would go here */}
-                                    <p className="text-center pt-5">Map Placeholder</p>
+                                    <Map 
+                                        latitude={project.latitude}
+                                        longitude={project.longitude}
+                                        zoom={13}
+                                    />
                                 </div>
+                                <p className="mt-2 text-muted">
+                                    <small>{project.location}</small>
+                                </p>
                             </div>
                         </div>
                     )}

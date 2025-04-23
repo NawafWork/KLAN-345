@@ -27,6 +27,7 @@ const Navbar = ({ logout, isAuthenticated }) => {
             <li className='nav-item'>
                 <Link className='nav-link' to='/signup'>Sign Up</Link>
             </li>
+
             
         </>
     );
@@ -35,6 +36,9 @@ const Navbar = ({ logout, isAuthenticated }) => {
         <>
             <li className='nav-item'>
                 <Link className='nav-link' to='/projects'>Projects</Link>
+            </li>
+            <li className='nav-item'>
+                <Link className='nav-link' to='/profile'>My Account</Link>
             </li>
             <li className='nav-item'>
                 <button 

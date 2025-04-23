@@ -6,7 +6,9 @@ import {
     CREATE_PROJECT,
     UPDATE_PROJECT,
     DELETE_PROJECT,
-    PROJECT_ERROR
+    PROJECT_ERROR,
+    GET_USER_PROJECTS,
+    GET_USER_PROJECTS_ERROR
 } from './types';
 
 // Get all projects
@@ -60,7 +62,7 @@ export const createProject = (formData, navigate) => async dispatch => {
         });
 
         // Redirect to project page
-        navigate(`/projects`);
+        navigate(`/projects/${res.data.id}`);
     } catch (err) {
         dispatch({
             type: PROJECT_ERROR,
@@ -86,7 +88,7 @@ export const updateProject = (id, formData, navigate) => async dispatch => {
         });
 
         // Redirect to project page
-        navigate(`/projects/${res.data.id}`);
+        navigate(`/projects/${id}`);
     } catch (err) {
         dispatch({
             type: PROJECT_ERROR,
@@ -113,5 +115,21 @@ export const deleteProject = (id, navigate) => async dispatch => {
                 payload: { msg: err.response.data, status: err.response.status }
             });
         }
+    }
+};
+
+export const getUserProjects = (userId) => async dispatch => {
+    try {
+        const res = await axios.get(`/api/charities/projects/user/${userId}/`);
+
+        dispatch({
+            type: GET_USER_PROJECTS,
+            payload: res.data
+        });
+    } catch (err) {
+        dispatch({
+            type: GET_USER_PROJECTS_ERROR,
+            payload: { msg: err.response?.data, status: err.response?.status }
+        });
     }
 };

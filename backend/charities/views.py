@@ -29,6 +29,21 @@ class CharityProjectViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
 
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        
+        # Handle image update
+        if 'image' in self.request.FILES:
+            # Delete old image if it exists
+            if instance.image:
+                instance.image.delete()
+            
+        serializer.save()
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
