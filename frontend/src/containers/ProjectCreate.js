@@ -39,14 +39,19 @@ const ProjectCreate = ({ createProject, isAuthenticated }) => {
     
     const onChange = e => {
         if (e.target.name === 'image') {
-            setFormData({ ...formData, image: e.target.files[0] });
+            const file = e.target.files[0];
+            console.log('Selected file:', file); // Debug: log selected file
             
-            // Create preview
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(e.target.files[0]);
+            setFormData({ ...formData, image: file });
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    console.log('Image preview created'); // Debug: confirm preview creation
+                    setImagePreview(reader.result);
+                };
+                reader.readAsDataURL(file);
+            }
         } else {
             setFormData({ ...formData, [e.target.name]: e.target.value });
         }
@@ -56,12 +61,24 @@ const ProjectCreate = ({ createProject, isAuthenticated }) => {
         e.preventDefault();
         
         const projectData = new FormData();
+
+            // Debug logging
+        console.log('Form Data before submission:', formData);
+        console.log('Image file:', formData.image);
+
         Object.keys(formData).forEach(key => {
             if (formData[key] !== null && formData[key] !== '') {
                 projectData.append(key, formData[key]);
+                // Debug: log each field being added to FormData
+                console.log(`Adding to FormData - ${key}:`, formData[key]);
             }
         });
         
+        // Debug: inspect the FormData contents
+        for (let pair of projectData.entries()) {
+            console.log('FormData entry:', pair[0], pair[1]);
+        }
+
         createProject(projectData, navigate);
     };
     

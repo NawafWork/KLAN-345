@@ -6,7 +6,9 @@ import {
     DELETE_PROJECT,
     PROJECT_ERROR,
     GET_USER_PROJECTS,
-    GET_USER_PROJECTS_ERROR
+    GET_USER_PROJECTS_ERROR,
+    GET_PROJECTS_SUCCESS,
+    GET_PROJECTS_FAIL
 } from '../actions/types';
 
 const initialState = {
@@ -71,6 +73,19 @@ const projectReducer = (state = initialState, action) => {
                 ...state,
                 error: payload,
                 loading: false
+            };
+        case GET_PROJECTS_SUCCESS:
+            return {
+                ...state,
+                projects: payload,
+                loading: false
+            };
+        case GET_PROJECTS_FAIL:
+            return {
+                ...state,
+                error: payload.msg,
+                loading: false,
+                projects: []
             };
         default:
             return state;

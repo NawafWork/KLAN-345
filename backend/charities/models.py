@@ -4,8 +4,11 @@ from django.contrib.auth.models import User
 import os
 
 def project_image_path(instance, filename):
-    # Generate unique file path: projects/user_id/project_id/filename
-    return f'projects/{instance.created_by.id}/{instance.id}/{filename}'
+    # Generate unique path for project images
+    from uuid import uuid4
+    project_id = instance.id or uuid4().hex
+    return f'projects/{instance.created_by.id}/{project_id}/{filename}'
+
 
 
 class CharityProject(models.Model):
@@ -16,9 +19,9 @@ class CharityProject(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     image = models.ImageField(
-        upload_to=project_image_path,
-        null=True,
-        blank=True
+        upload_to=project_image_path,  # Change this from 'charity_images/'
+        blank=True, 
+        null=True
     )
     location = models.CharField(max_length=255, blank=True)
     latitude = models.FloatField(null=True, blank=True)

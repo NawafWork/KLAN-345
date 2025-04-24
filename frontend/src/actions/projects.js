@@ -1,29 +1,32 @@
 // src/actions/projects.js
 import axios from 'axios';
 import {
-    GET_PROJECTS,
     GET_PROJECT,
     CREATE_PROJECT,
     UPDATE_PROJECT,
     DELETE_PROJECT,
     PROJECT_ERROR,
     GET_USER_PROJECTS,
-    GET_USER_PROJECTS_ERROR
+    GET_USER_PROJECTS_ERROR,
+    GET_PROJECTS_SUCCESS, 
+    GET_PROJECTS_FAIL
 } from './types';
 
 // Get all projects
 export const getProjects = () => async dispatch => {
     try {
         const res = await axios.get('/api/charities/projects/');
-
+        
         dispatch({
-            type: GET_PROJECTS,
-            payload: res.data
+            type: GET_PROJECTS_SUCCESS,
+            payload: res.data || [] 
         });
     } catch (err) {
         dispatch({
-            type: PROJECT_ERROR,
-            payload: { msg: err.response.data, status: err.response.status }
+            type: GET_PROJECTS_FAIL,
+            payload: {
+                msg: err.response?.data?.message || err.message || 'Error loading projects'
+            }
         });
     }
 };

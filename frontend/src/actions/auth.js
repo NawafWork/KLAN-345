@@ -151,6 +151,7 @@ export const login = (username, password) => async dispatch => {
 
         dispatch(load_user());
     } catch (err) {
+        console.error('Login error:', err.response?.data || err.message);
         dispatch({
             type: LOGIN_FAIL
         });
@@ -168,15 +169,17 @@ export const reset_password = (email) => async dispatch => {
     const body = JSON.stringify({ email });
 
     try {
-        await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/reset_password/`, body, config);
-
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/reset_password/`, body, config);
+        console.log('Password reset response:', res.data);
         dispatch({
             type: PASSWORD_RESET_SUCCESS
         });
     } catch (err) {
+        console.error('Password reset error:', err.response?.data || err.message);
         dispatch({
             type: PASSWORD_RESET_FAIL
         });
+        throw err;
     }
 };
 

@@ -1,32 +1,88 @@
 .project-marker {
-    background-color: #FF4742;
-    width: 24px;
-    height: 24px;
+    background-color: #2563eb;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    border: 2px solid #FFFFFF;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    border: 3px solid #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .project-marker:hover {
-    transform: scale(1.2);
-    background-color: #FF2420;
+    transform: scale(1.1);
+    background-color: #1d4ed8;
 }
 
 .map-popup {
-    padding: 12px;
-    max-width: 220px;
+    padding: 16px;
+    min-width: 250px;
 }
 
 .map-popup h6 {
-    margin: 0 0 8px 0;
+    margin: 0 0 12px 0;
+    font-size: 18px;
     font-weight: 600;
-    color: #333;
+    color: #2563eb;
 }
 
-.map-popup p {
-    margin: 0;
-    color: #666;
+.map-popup .location {
+    color: #4b5563;
     font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.map-popup .progress {
+    font-weight: 500;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.popup-progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+    margin: 8px 0 12px 0;
+}
+
+.popup-progress {
+    height: 100%;
+    background-color: #2563eb;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.popup-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 12px;
+    transition: all 0.2s ease;
+}
+
+.popup-link:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.map-wrapper {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

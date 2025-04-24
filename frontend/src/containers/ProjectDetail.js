@@ -19,7 +19,6 @@ const ProjectDetail = ({
 }) => {
     const { id } = useParams();
     const navigate = useNavigate();
-
     useEffect(() => {
         getProject(id);
     }, [getProject, id]);
@@ -28,18 +27,15 @@ const ProjectDetail = ({
         return <div>Loading...</div>;
     }
 
+
     return (
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-8">
-                    {project.image_url && (
+                    {project.image && (
                         <img 
-                            src={`${process.env.REACT_APP_API_URL}${project.image_url}`}
+                            src={project.image} 
                             alt={project.title} 
-                            onError={(e) => {
-                                console.error('Image failed to load:', project.image_url);
-                                e.target.style.display = 'none';
-                            }}
                             className="img-fluid mb-4"
                             style={{ maxHeight: '400px', width: '100%', objectFit: 'cover' }}
                         />

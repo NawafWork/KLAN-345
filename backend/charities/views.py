@@ -31,12 +31,6 @@ class CharityProjectViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         instance = self.get_object()
-        
-        # Handle image update
-        if 'image' in self.request.FILES:
-            # Delete old image if it exists
-            if instance.image:
-                instance.image.delete()
             
         serializer.save()
 

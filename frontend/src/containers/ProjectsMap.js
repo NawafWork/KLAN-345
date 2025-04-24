@@ -19,15 +19,14 @@ const ProjectsMap = ({ projects }) => {
             try {
                 map.current = new mapboxgl.Map({
                     container: mapContainer.current,
-                    style: 'mapbox://styles/mapbox/streets-v12',
+                    style: 'mapbox://styles/mapbox/streets-v12', // Changed to light style
                     center: [0, 20],
-                    zoom: 3
+                    zoom: 2
                 });
 
-                map.current.on('load', () => {
-                    setMapLoaded(true);
-                });
+                map.current.on('load', () => setMapLoaded(true));
 
+                // Add navigation controls
                 const nav = new mapboxgl.NavigationControl();
                 map.current.addControl(nav);
             } catch (err) {
@@ -36,15 +35,10 @@ const ProjectsMap = ({ projects }) => {
             }
         }
 
-        // Cleanup function
         return () => {
-            markersRef.current.forEach(marker => {
-                if (marker) marker.remove();
-            });
-            if (map.current) {
-                map.current.remove();
-                map.current = null;
-            }
+            markersRef.current.forEach(marker => marker?.remove());
+            map.current?.remove();
+            map.current = null;
         };
     }, [projects.length]);
 
@@ -52,9 +46,7 @@ const ProjectsMap = ({ projects }) => {
     useEffect(() => {
         if (map.current && mapLoaded && projects?.length > 0) {
             // Clear existing markers
-            markersRef.current.forEach(marker => {
-                if (marker) marker.remove();
-            });
+            markersRef.current.forEach(marker => marker?.remove());
             markersRef.current = [];
 
             const bounds = new mapboxgl.LngLatBounds();
@@ -68,42 +60,46 @@ const ProjectsMap = ({ projects }) => {
                     validLocationsFound = true;
                     bounds.extend([lng, lat]);
 
-                    // Create marker element
-                    const el = document.createElement('div');
-                    el.className = 'project-marker';
-                    
-                    // Create and add marker
-                    const marker = new mapboxgl.Marker({
-                        element: el,
-                        anchor: 'center'
-                    })
-                    .setLngLat([lng, lat])
-                    .setPopup(
-                        new mapboxgl.Popup({
-                            offset: 25,
-                            closeButton: false,
-                            closeOnClick: false
-                        })
-                        .setHTML(`
-                            <div class="map-popup">
-                                <h6>${project.title}</h6>
-                                <p>${project.location || 'Location not specified'}</p>
-                            </div>
-                        `)
-                    )
-                    .addTo(map.current);
-
-                    // Show popup on hover
-                    el.addEventListener('mouseenter', () => marker.togglePopup());
-                    el.addEventListener('mouseleave', () => marker.togglePopup());
+                    // Create simple marker like in project detail
+                    const marker = new mapboxgl.Marker()
+                        .setLngLat([lng, lat])
+                        .setPopup(
+                            new mapboxgl.Popup({
+                                offset: 25,
+                                closeButton: true,
+                                closeOnClick: true,
+                                className: 'project-popup'
+                            })
+                            .setHTML(`
+                                <div class="map-popup">
+                                    <h6>${project.title}</h6>
+                                    <p class="location">${project.location}</p>
+                                    <div class="progress mb-2">
+                                        <div 
+                                            class="progress-bar" 
+                                            role="progressbar" 
+                                            style="width: ${Math.min((project.amount_raised / project.goal_amount) * 100, 100)}%"
+                                        >
+                                            ${Math.round((project.amount_raised / project.goal_amount) * 100)}%
+                                        </div>
+                                    </div>
+                                    <p class="mt-2">
+                                        <strong>$${project.amount_raised.toLocaleString()}</strong> 
+                                        <span class="text-muted">of $${project.goal_amount.toLocaleString()}</span>
+                                    </p>
+                                    <a href="/projects/${project.id}" class="btn btn-info btn-sm">View Details</a>
+                                </div>
+                            `)
+                        )
+                        .addTo(map.current);
 
                     markersRef.current.push(marker);
-                }
-            });
+                }    
+            });       
 
             if (validLocationsFound && !bounds.isEmpty()) {
                 map.current.fitBounds(bounds, {
-                    padding: 50,
+                    padding: { top: 50, bottom: 50, left: 50, right: 50 },
                     maxZoom: 12
                 });
             }
@@ -115,14 +111,19 @@ const ProjectsMap = ({ projects }) => {
     }
 
     return (
-        <div 
-            ref={mapContainer} 
-            style={{ 
-                height: '100%', 
-                width: '100%',
-                borderRadius: '4px'
-            }} 
-        />
+        <div className="map-container card">
+            <div className="card-body p-0">
+                <div 
+                    ref={mapContainer} 
+                    className="map-wrapper"
+                    style={{ 
+                        height: '600px',
+                        borderRadius: '4px',
+                        overflow: 'hidden'
+                    }}
+                />
+            </div>
+        </div>
     );
 };
 
