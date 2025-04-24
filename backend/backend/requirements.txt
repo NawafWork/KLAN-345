@@ -10,8 +10,8 @@ django-cors-headers==4.7.0
 django-filter==1.1.0
 djangorestframework==3.14.0
 djangorestframework-filters==0.11.1
-djangorestframework_simplejwt==4.8.0
-djoser==2.1.0
+djangorestframework-simplejwt==5.0.0
+djoser==2.2.0
 idna==3.10
 oauthlib==3.2.2
 pillow==11.2.1
