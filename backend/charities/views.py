@@ -7,6 +7,9 @@ from .models import CharityProject, Donation
 from .serializers import CharityProjectSerializer, DonationSerializer, ProjectMinimalSerializer
 from .permissions import IsOwnerOrReadOnly
 from django.shortcuts import get_object_or_404
+from django.db import transaction
+import uuid
+from decimal import Decimal
 
 
 class CharityProjectViewSet(viewsets.ModelViewSet):
@@ -64,3 +67,54 @@ def user_projects(request, user_id):
     projects = CharityProject.objects.filter(created_by_id=user_id)
     serializer = CharityProjectSerializer(projects, many=True)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_donation(request):
+    try:
+        
+        
+        with transaction.atomic():
+            project = get_object_or_404(CharityProject, id=request.data.get('project'))
+            amount = Decimal(request.data.get('amount'))
+
+            # Validate amount
+            if amount <= 0:
+                return Response(
+                    {"message": "Amount must be greater than 0"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Create donation
+            donation = Donation.objects.create(
+                user=request.user,
+                project=project,
+                amount=amount,
+                transaction_id=str(uuid.uuid4())
+            )
+
+            # Update project amount raised
+            project.amount_raised = project.amount_raised + amount
+            project.save()
+
+            # Send thank you email
+            try:
+                donation.send_thank_you_email()
+            except Exception as e:
+                print(f"Failed to send thank you email: {e}")
+
+            # Check if goal reached and notify
+            try:
+                donation.check_and_notify_goal_reached()
+            except Exception as e:
+                print(f"Failed to send goal reached notification: {e}")
+
+            serializer = DonationSerializer(donation)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    except Exception as e:
+        return Response(
+            {"message": str(e)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
