@@ -159,19 +159,15 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-        'OPTIONS': {
-            'sslmode': 'prefer'
-        }
+        'NAME': 'charityweb',
+        'USER': 'postgres1',
+        'PASSWORD': 'feHiJCw0yYUaqhHGKMcFPy5Ga9oPyzZM',
+        'HOST': 'dpg-d05fra2li9vc738oqel0-a',
+        'PORT': '5432',
     }
 }
-
 
 # Djoser settings
 DJOSER = {
