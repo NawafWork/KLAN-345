@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# KLAN-345
-=======
 # Charity Web Application
 
 A full-stack web application for managing and contributing to charity projects, built with Django REST Framework and React.
@@ -11,7 +8,9 @@ A full-stack web application for managing and contributing to charity projects, 
 
 1. Clone the repository and create a virtual environment:
 ```bash
-git clone <repository-url>
+git clone https://github.com/NawafWork/KLAN-345
+cd KLAN-345
+git checkout main
 cd backend
 python -m venv venv
 source venv/bin/activate  # On Windows: .\venv\Scripts\activate
@@ -250,4 +249,3 @@ CORS_ALLOWED_ORIGINS = [
    - Migration management
    - Backup procedures
    - Data integrity checks
->>>>>>> testdeployment
