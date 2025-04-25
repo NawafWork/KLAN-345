@@ -1,5 +1,5 @@
 // src/containers/ProjectCreate.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createProject } from '../actions/projects';
@@ -16,7 +16,6 @@ const ProjectCreate = ({ createProject, isAuthenticated }) => {
         location: '',
         latitude: '',
         longitude: '',
-        image: null
     });
     
     const { 
@@ -30,54 +29,28 @@ const ProjectCreate = ({ createProject, isAuthenticated }) => {
         longitude 
     } = formData;
     
-    const [imagePreview, setImagePreview] = useState(null);
     
     // Redirect if not authenticated
-    if (!isAuthenticated) {
-        navigate('/login');
-    }
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+        }
+    }, [isAuthenticated, navigate]);
     
     const onChange = e => {
-        if (e.target.name === 'image') {
-            const file = e.target.files[0];
-            console.log('Selected file:', file); // Debug: log selected file
-            
-            setFormData({ ...formData, image: file });
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    console.log('Image preview created'); // Debug: confirm preview creation
-                    setImagePreview(reader.result);
-                };
-                reader.readAsDataURL(file);
-            }
-        } else {
             setFormData({ ...formData, [e.target.name]: e.target.value });
-        }
+    
     };
     
     const onSubmit = e => {
         e.preventDefault();
         
-        const projectData = new FormData();
-
-            // Debug logging
-        console.log('Form Data before submission:', formData);
-        console.log('Image file:', formData.image);
-
+        const projectData = {};
         Object.keys(formData).forEach(key => {
             if (formData[key] !== null && formData[key] !== '') {
-                projectData.append(key, formData[key]);
-                // Debug: log each field being added to FormData
-                console.log(`Adding to FormData - ${key}:`, formData[key]);
+                projectData[key] = formData[key];  // Use regular object assignment
             }
         });
-        
-        // Debug: inspect the FormData contents
-        for (let pair of projectData.entries()) {
-            console.log('FormData entry:', pair[0], pair[1]);
-        }
 
         createProject(projectData, navigate);
     };
@@ -186,31 +159,6 @@ const ProjectCreate = ({ createProject, isAuthenticated }) => {
                         />
                     </div>
                 </div>
-                
-                <div className="mb-3">
-                    <label className="form-label">Project Image</label>
-                    <input
-                        type="file"
-                        className="form-control"
-                        name="image"
-                        onChange={onChange}
-                        accept="image/*"
-                    />
-                </div>
-                
-                {imagePreview && (
-                    <div className="mb-3">
-                        <label className="form-label">Image Preview</label>
-                        <div>
-                            <img 
-                                src={imagePreview} 
-                                alt="Preview" 
-                                style={{ maxHeight: '200px' }} 
-                                className="img-thumbnail"
-                            />
-                        </div>
-                    </div>
-                )}
                 
                 <button type="submit" className="btn btn-primary">Create Project</button>
             </form>

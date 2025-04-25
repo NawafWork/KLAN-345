@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { getProject, deleteProject } from '../actions/projects';
-
 // FontAwesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDroplet } from '@fortawesome/free-solid-svg-icons';
@@ -32,14 +31,6 @@ const ProjectDetail = ({
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-8">
-                    {project.image && (
-                        <img 
-                            src={project.image} 
-                            alt={project.title} 
-                            className="img-fluid mb-4"
-                            style={{ maxHeight: '400px', width: '100%', objectFit: 'cover' }}
-                        />
-                    )}
                     <h1>{project.title}</h1>
                     <p className="lead">{project.description}</p>
                     

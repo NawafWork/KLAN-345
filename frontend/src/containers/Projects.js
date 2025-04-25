@@ -58,14 +58,6 @@ const Projects = ({ getProjects, projects: { projects, loading }, isAuthenticate
                         projects.map(project => (
                             <div className="col-md-4 mb-4" key={project.id}>
                                 <div className="card h-100">
-                                    {project.image && (
-                                        <img 
-                                            src={project.image} 
-                                            className="card-img-top" 
-                                            alt={project.title}
-                                            style={{ height: '200px', objectFit: 'cover' }}
-                                        />
-                                    )}
                                     <div className="card-body">
                                         <h5 className="card-title">{project.title}</h5>
                                         <p className="card-text">

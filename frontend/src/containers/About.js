@@ -1,9 +1,9 @@
 import React from 'react';
 import '../styles/About.css';
 
-import executiveTeam1 from '../images/executiveimage.png';
-import executiveTeam2 from '../images/executiveimage.png';
-import executiveTeam3 from '../images/executiveimage.png';
+import executiveTeam1 from '../images/executiveimage1.jpg';
+import executiveTeam2 from '../images/executiveimage3.jpeg';
+import executiveTeam3 from '../images/executiveimage2.jpeg';
 import executiveTeam4 from '../images/executiveimage.png';
 
 const About = () => {

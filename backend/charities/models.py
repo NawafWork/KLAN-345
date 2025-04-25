@@ -20,7 +20,6 @@ class CharityProject(models.Model):
     amount_raised = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     start_date = models.DateField()
     end_date = models.DateField()
-    image = models.ImageField(upload_to='charity_images/', blank=True, null=True)
     location = models.CharField(max_length=255, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
@@ -33,22 +32,9 @@ class CharityProject(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        # Delete old image file when updating
-        if self.pk:
-            try:
-                old_instance = CharityProject.objects.get(pk=self.pk)
-                if old_instance.image and self.image != old_instance.image:
-                    if os.path.isfile(old_instance.image.path):
-                        os.remove(old_instance.image.path)
-            except CharityProject.DoesNotExist:
-                pass
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        # Delete image file when deleting project
-        if self.image:
-            if os.path.isfile(self.image.path):
-                os.remove(self.image.path)
         super().delete(*args, **kwargs)
 
     @property

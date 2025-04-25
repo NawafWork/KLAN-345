@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../utils/axiosConfig';
 import { 
     GET_USER_DONATIONS,
     DONATION_ERROR
@@ -6,7 +6,7 @@ import {
 
 export const getUserDonations = (userId) => async dispatch => {
     try {
-        const res = await axios.get(`/api/charities/donations/user/${userId}/`);
+        const res = await axiosInstance.get(`/api/charities/donations/user/${userId}/`);
 
         dispatch({
             type: GET_USER_DONATIONS,

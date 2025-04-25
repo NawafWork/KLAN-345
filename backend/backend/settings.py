@@ -43,7 +43,12 @@ REST_FRAMEWORK = {
     ],
 }
 
-CORS_ALLOW_ALL_ORIGINS = True  # For development only
+# Update Session settings
+SESSION_COOKIE_SAMESITE = 'Lax'  # Required for Safari
+SESSION_COOKIE_SECURE = False  # Set to True in production
+SESSION_COOKIE_HTTPONLY = True
+
+CORS_ALLOW_ALL_ORIGINS = False  # For development only
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React development server
@@ -53,10 +58,13 @@ CORS_ALLOWED_ORIGINS = [
 CORS_EXPOSED_HEADERS = ['Content-Type', 'X-CSRFToken']
 # Update CSRF settings
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:8000",
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SAMESITE = 'Lax'  # Required for Safari
+CSRF_COOKIE_SECURE = False  # Set to True in production
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_HTTPONLY = False
 CORS_ALLOW_METHODS = [
@@ -138,12 +146,12 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'charityweb',
-        'USER': 'postgres',
-        'PASSWORD': '1126',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.getenv('DB_NAME', 'charityweb'),
+        'USER': os.getenv('DB_USER', 'postgres'),
+        'PASSWORD': os.getenv('DB_PASSWORD', '1126'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
@@ -229,7 +237,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'accounts.UserAccount'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # For testing, use a temporary directory

@@ -74,16 +74,15 @@ const ProjectsMap = ({ projects }) => {
                                 <div class="map-popup">
                                     <h6>${project.title}</h6>
                                     <p class="location">${project.location}</p>
-                                    <div class="progress mb-2">
+                                    <div class="progress">
                                         <div 
                                             class="progress-bar" 
                                             role="progressbar" 
                                             style="width: ${Math.min((project.amount_raised / project.goal_amount) * 100, 100)}%"
                                         >
-                                            ${Math.round((project.amount_raised / project.goal_amount) * 100)}%
                                         </div>
                                     </div>
-                                    <p class="mt-2">
+                                    <p class="amount-text">
                                         <strong>$${project.amount_raised.toLocaleString()}</strong> 
                                         <span class="text-muted">of $${project.goal_amount.toLocaleString()}</span>
                                     </p>
@@ -111,15 +110,15 @@ const ProjectsMap = ({ projects }) => {
     }
 
     return (
-        <div className="map-container card">
+        <div className="map-container">
             <div className="card-body p-0">
                 <div 
                     ref={mapContainer} 
                     className="map-wrapper"
                     style={{ 
                         height: '600px',
-                        borderRadius: '4px',
-                        overflow: 'hidden'
+                        position: 'relative',
+                        zIndex: 0
                     }}
                 />
             </div>

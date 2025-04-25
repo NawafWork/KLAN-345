@@ -1,5 +1,5 @@
 // src/actions/projects.js
-import axios from 'axios';
+import axiosInstance from '../utils/axiosConfig';
 import {
     GET_PROJECT,
     CREATE_PROJECT,
@@ -15,7 +15,7 @@ import {
 // Get all projects
 export const getProjects = () => async dispatch => {
     try {
-        const res = await axios.get('/api/charities/projects/');
+        const res = await axiosInstance.get('/api/charities/projects/');
         
         dispatch({
             type: GET_PROJECTS_SUCCESS,
@@ -34,7 +34,7 @@ export const getProjects = () => async dispatch => {
 // Get project by ID
 export const getProject = id => async dispatch => {
     try {
-        const res = await axios.get(`/api/charities/projects/${id}/`);
+        const res = await axiosInstance.get(`/api/charities/projects/${id}/`);
 
         dispatch({
             type: GET_PROJECT,
@@ -51,21 +51,18 @@ export const getProject = id => async dispatch => {
 // Create project
 export const createProject = (formData, navigate) => async dispatch => {
     try {
-        const config = {
+        const res = await axiosInstance.post('/api/charities/projects/', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/json'
             }
-        };
-
-        const res = await axios.post('/api/charities/projects/', formData, config);
+        });
 
         dispatch({
             type: CREATE_PROJECT,
             payload: res.data
         });
 
-        // Redirect to project page
-        navigate(`/projects/${res.data.id}`);
+        navigate('/projects');
     } catch (err) {
         dispatch({
             type: PROJECT_ERROR,
@@ -77,20 +74,17 @@ export const createProject = (formData, navigate) => async dispatch => {
 // Update project
 export const updateProject = (id, formData, navigate) => async dispatch => {
     try {
-        const config = {
+        const res = await axiosInstance.patch(`/api/charities/projects/${id}/`, formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/json'
             }
-        };
-
-        const res = await axios.patch(`/api/charities/projects/${id}/`, formData, config);
+        });
 
         dispatch({
             type: UPDATE_PROJECT,
             payload: res.data
         });
 
-        // Redirect to project page
         navigate(`/projects/${id}`);
     } catch (err) {
         dispatch({
@@ -104,7 +98,7 @@ export const updateProject = (id, formData, navigate) => async dispatch => {
 export const deleteProject = (id, navigate) => async dispatch => {
     if (window.confirm('Are you sure you want to delete this project?')) {
         try {
-            await axios.delete(`/api/charities/projects/${id}/`);
+            await axiosInstance.delete(`/api/charities/projects/${id}/`);
 
             dispatch({
                 type: DELETE_PROJECT,
@@ -123,7 +117,7 @@ export const deleteProject = (id, navigate) => async dispatch => {
 
 export const getUserProjects = (userId) => async dispatch => {
     try {
-        const res = await axios.get(`/api/charities/projects/user/${userId}/`);
+        const res = await axiosInstance.get(`/api/charities/projects/user/${userId}/`);
 
         dispatch({
             type: GET_USER_PROJECTS,

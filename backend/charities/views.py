@@ -15,7 +15,7 @@ from decimal import Decimal
 class CharityProjectViewSet(viewsets.ModelViewSet):
     queryset = CharityProject.objects.all()
     serializer_class = CharityProjectSerializer
-    parser_classes = (MultiPartParser, FormParser, JSONParser)
+    parser_classes = [JSONParser] 
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['title', 'description', 'location']
     ordering_fields = ['created_at', 'goal_amount', 'end_date']

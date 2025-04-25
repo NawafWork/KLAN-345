@@ -1,0 +1,79 @@
+.donation-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    border: none;
+}
+
+.amount-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.amount-button {
+    padding: 16px;
+    font-size: 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.amount-button:hover {
+    border-color: #3b82f6;
+    background: #f8fafc;
+}
+
+.amount-button.active {
+    border-color: #3b82f6;
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.custom-amount {
+    grid-column: 1 / -1;
+}
+
+.custom-amount input {
+    padding: 16px;
+    font-size: 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.custom-amount input:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn-primary {
+    background: #3b82f6;
+    border: none;
+    padding: 12px 24px;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+}
+
+.form-check-input:checked {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.form-select-lg {
+    padding: 1rem;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: 2px solid #e2e8f0;
+}
+
+.form-select-lg:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}

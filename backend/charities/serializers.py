@@ -7,7 +7,12 @@ class CharityProjectSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CharityProject
-        fields = '__all__'
+        fields = [
+            'id', 'title', 'description', 'goal_amount',
+            'amount_raised', 'start_date', 'end_date',
+            'location', 'latitude', 'longitude',
+            'created_at', 'updated_at', 'created_by'
+        ]
         read_only_fields = ['amount_raised', 'created_by']
 
     def validate(self, data):
