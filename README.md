@@ -75,8 +75,11 @@ REACT_APP_API_URL=http://localhost:8000
 REACT_APP_MAPBOX_TOKEN=your-mapbox-token
 ```
 
+
 3. Start the development server:
 ```bash
+npm run build
+
 npm start
 ```
 
