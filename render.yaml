@@ -37,4 +37,4 @@ services:
 
 databases:
   - name: water-charity-db
-    plan: starter 
+    plan: free 
