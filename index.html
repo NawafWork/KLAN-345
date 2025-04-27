@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CharityWeb - Water Charity</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background-image: url('/api/placeholder/1200/600');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background-color: #4299e1;
+            border-radius: 4px;
+        }
+        .quote-section {
+            background-image: url('/api/placeholder/1200/600');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .quote-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(59, 130, 246, 0.7);
+            z-index: 0;
+        }
+        .quote-content {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header/Navbar -->
+    <header class="bg-gray-900 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold">CharityWeb</a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="/" class="hover:text-blue-300">Home</a>
+                <a href="/projects" class="hover:text-blue-300">Projects</a>
+                <a href="/login" class="hover:text-blue-300">Login</a>
+                <a href="/signup" class="hover:text-blue-300">Sign Up</a>
+            </nav>
+            <a href="/donate" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded-md inline-flex items-center">
+                DONATE <span class="ml-1">💧</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home" class="block">
+        <!-- Hero Section -->
+        <section class="hero-section py-20 md:py-32">
+            <div class="container mx-auto px-4 hero-content text-center text-white">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">Clean Water For Everyone</h1>
+                <p class="text-xl md:text-2xl mb-10">Help us provide clean water to communities in need around the world.</p>
+                <a href="#donate" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-8 rounded-md text-lg inline-block">
+                    DONATE NOW
+                </a>
+            </div>
+        </section>
+
+        <!-- Quote Section -->
+        <section class="quote-section py-16">
+            <div class="container mx-auto px-4 quote-content text-center text-white">
+                <div class="max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl italic font-light mb-4">
+                        "Giving does not only precede receiving; it is the reason for it. It is in giving that we receive."
+                    </h2>
+                    <p class="text-xl">— Israelmore Ayivor</p>
+                </div>
+                <div class="mt-10">
+                    <img src="/api/placeholder/600/300" alt="Helping hands" class="rounded-lg shadow-lg mx-auto">
+                </div>
+                <div class="mt-10">
+                    <a href="#donate" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-8 rounded-md text-lg inline-block">
+                        DONATION NOW!
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center">Charity Projects</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project Card -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <img src="/api/placeholder/600/400" alt="Splash project" class="w-full h-56 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Splash</h3>
+                            <p class="text-gray-700 mb-4">Splash is at the forefront of a growing movement to ensure that children in urban poverty have the resources they need for healthy development.</p>
+                            <div class="progress-bar mb-2">
+                                <div class="progress" style="width: 0%"></div>
+                            </div>
+                            <p class="text-gray-600 mb-4">$0.00 raised of $15000.00 goal</p>
+                            <a href="/projects/splash" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md inline-block">View Details</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Project Cards (can be added as needed) -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <img src="/api/placeholder/600/400" alt="Clean Rivers project" class="w-full h-56 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Clean Rivers</h3>
+                            <p class="text-gray-700 mb-4">Working to restore and protect rivers in developing countries to provide sustainable water sources for local communities.</p>
+                            <div class="progress-bar mb-2">
+                                <div class="progress" style="width: 25%"></div>
+                            </div>
+                            <p class="text-gray-600 mb-4">$5000.00 raised of $20000.00 goal</p>
+                            <a href="/projects/clean-rivers" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md inline-block">View Details</a>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <img src="/api/placeholder/600/400" alt="Water Wells project" class="w-full h-56 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Water Wells</h3>
+                            <p class="text-gray-700 mb-4">Building sustainable wells in drought-prone areas to provide reliable access to clean drinking water year-round.</p>
+                            <div class="progress-bar mb-2">
+                                <div class="progress" style="width: 65%"></div>
+                            </div>
+                            <p class="text-gray-600 mb-4">$13000.00 raised of $20000.00 goal</p>
+                            <a href="/projects/water-wells" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md inline-block">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Donation Page -->
+    <div id="donate" class="hidden">
+        <section class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <div class="max-w-lg mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-blue-50 py-6 px-8 border-b">
+                        <h2 class="text-3xl font-bold text-center text-gray-800">Make a Secure Donation</h2>
+                    </div>
+                    <div class="p-8">
+                        <form>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-xl mb-4">Choose an amount</label>
+                                <div class="grid grid-cols-4 gap-4 mb-4">
+                                    <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-md">$10</button>
+                                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md">$25</button>
+                                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md">$50</button>
+                                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md">$100</button>
+                                </div>
+                                <input type="text" placeholder="Enter custom amount" class="w-full border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-xl mb-4">Payment method</label>
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 border border-blue-500 font-bold py-3 px-4 rounded-md">Credit/Debit Card</button>
+                                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md">PayPal</button>
+                                </div>
+                                
+                                <input type="text" placeholder="Name on Card" class="w-full border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4">
+                                
+                                <div class="grid grid-cols-3 gap-4 mb-4">
+                                    <input type="text" placeholder="Card Number" class="col-span-2 border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <input type="text" placeholder="MM/YY" class="border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                
+                                <div class="flex items-center mb-4">
+                                    <input type="checkbox" id="save-card" class="mr-2">
+                                    <label for="save-card" class="text-gray-700">Save my card for future donations</label>
+                                </div>
+                                
+                                <input type="email" placeholder="Email address" class="w-full border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6">
+                                
+                                <button type="button" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-md text-lg">
+                                    Donate Now
+                                </button>
+                                
+                                <div class="mt-6 text-center text-gray-700">
+                                    <span class="inline-block mr-2">📧</span> A receipt has been sent to your email
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="hidden">
+        <section class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="p-8">
+                        <h2 class="text-3xl font-bold mb-2 text-gray-800">Sign In</h2>
+                        <p class="text-gray-600 mb-6">Sign into your Account</p>
+                        <form>
+                            <input type="text" placeholder="Username" value="AdamSmith" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            
+                            <input type="password" placeholder="Password" value="••••••••••••" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            
+                            <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md mb-4">
+                                Sign In
+                            </button>
+                            
+                            <div class="text-gray-700">
+                                <p class="mb-2">Don't have an account? <a href="#signup" class="text-blue-500 hover:underline">Sign Up</a></p>
+                                <p>Forgot Password? <a href="#reset" class="text-blue-500 hover:underline">Reset Password</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Sign Up Page -->
+    <div id="signup" class="hidden">
+        <section class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="p-8">
+                        <h2 class="text-3xl font-bold mb-2 text-gray-800">Sign Up</h2>
+                        <p class="text-gray-600 mb-6">Create your Account</p>
+                        <form>
+                            <input type="text" placeholder="Username" value="AdamSmith" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            
+                            <input type="email" placeholder="Email*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            
+                            <input type="text" placeholder="First Name*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            
+                            <input type="text" placeholder="Last Name*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            
+                            <input type="password" placeholder="Password*" value="••••••••••••" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            
+                            <input type="password" placeholder="Confirm Password*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            
+                            <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md mb-4">
+                                Sign Up
+                            </button>
+                            
+                            <div class="text-gray-700">
+                                <p>Already have an account? <a href="#login" class="text-blue-500 hover:underline">Sign In</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">CharityWeb</h3>
+                    <p class="text-gray-400">Providing clean water solutions to communities in need around the world since 2010.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="/projects" class="text-gray-400 hover:text-white">Projects</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Connect With Us</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Facebook</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Twitter</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Instagram</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2025 CharityWeb. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple routing system
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all elements with page IDs
+            const pages = document.querySelectorAll('[id^="home"], [id^="donate"], [id^="login"], [id^="signup"]');
+            
+            // Function to show a specific page and hide others
+            function showPage(pageId) {
+                pages.forEach(page => {
+                    if (page.id === pageId) {
+                        page.classList.remove('hidden');
+                        page.classList.add('block');
+                    } else {
+                        page.classList.remove('block');
+                        page.classList.add('hidden');
+                    }
+                });
+            }
+            
+            // Default to home page
+            showPage('home');
+            
+            // Handle navigation clicks
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('href').substring(1);
+                    showPage(pageId);
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            // Handle navbar navigation
+            document.querySelectorAll('a[href="/donate"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showPage('donate');
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            document.querySelectorAll('a[href="/login"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showPage('login');
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            document.querySelectorAll('a[href="/signup"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showPage('signup');
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            document.querySelectorAll('a[href="/"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showPage('home');
+                    window.scrollTo(0, 0);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
