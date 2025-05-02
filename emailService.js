@@ -1,16 +1,30 @@
 // Email service for sending donation confirmations
-const nodemailer = require('nodemailer');
+let nodemailer;
+try {
+  nodemailer = require('nodemailer');
+} catch (error) {
+  console.log('Nodemailer not available, using mock email service');
+  nodemailer = null;
+}
 
-// Create a mock transporter for development (logs to console)
-// For production, you would use a real SMTP service
-const transporter = nodemailer.createTransport({
+// Mock transporter implementation when nodemailer isn't available
+const mockTransporter = {
+  sendMail: (options) => {
+    return Promise.resolve({
+      messageId: `mock_${Date.now()}@mockmail.com`
+    });
+  }
+};
+
+// Create a transporter - either real or mock
+const transporter = nodemailer ? nodemailer.createTransport({
   host: 'smtp.ethereal.email',
   port: 587,
   auth: {
     user: 'ethereal.user@ethereal.email',
     pass: 'ethereal.password'
   }
-});
+}) : mockTransporter;
 
 // For production, create a console fallback if the email service is unavailable
 const sendMail = async (mailOptions) => {
@@ -21,7 +35,6 @@ const sendMail = async (mailOptions) => {
     console.log('Email information:');
     console.log('To:', mailOptions.to);
     console.log('Subject:', mailOptions.subject);
-    console.log('HTML Content:', mailOptions.html);
     
     // For the class project, we'll just mock the email sending
     // Uncomment the following line to actually send emails with a configured SMTP server

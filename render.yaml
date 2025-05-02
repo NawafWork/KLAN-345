@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: water-charity-backend
+    name: charity-water-project
     env: node
     plan: free
     buildCommand: npm install
