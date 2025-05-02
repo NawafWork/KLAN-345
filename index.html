@@ -57,9 +57,33 @@
             position: relative;
             z-index: 1;
         }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            background-color: #48bb78;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-100px);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+        .notification.show {
+            transform: translateY(0);
+        }
+        .notification.error {
+            background-color: #f56565;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        Message goes here
+    </div>
+
     <!-- Header/Navbar -->
     <header class="bg-gray-900 text-white shadow-lg">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -67,8 +91,10 @@
             <nav class="hidden md:flex space-x-6">
                 <a href="/" class="hover:text-blue-300">Home</a>
                 <a href="/projects" class="hover:text-blue-300">Projects</a>
-                <a href="/login" class="hover:text-blue-300">Login</a>
-                <a href="/signup" class="hover:text-blue-300">Sign Up</a>
+                <a href="/login" class="hover:text-blue-300" id="loginNav">Login</a>
+                <a href="/signup" class="hover:text-blue-300" id="signupNav">Sign Up</a>
+                <a href="/profile" class="hover:text-blue-300 hidden" id="profileNav">My Profile</a>
+                <a href="#" class="hover:text-blue-300 hidden" id="logoutNav">Logout</a>
             </nav>
             <a href="/donate" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded-md inline-flex items-center">
                 DONATE <span class="ml-1">💧</span>
@@ -114,45 +140,11 @@
             <div class="container mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center">Charity Projects</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Project Card -->
+                <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project cards will be dynamically loaded here -->
                     <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="/api/placeholder/600/400" alt="Splash project" class="w-full h-56 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Splash</h3>
-                            <p class="text-gray-700 mb-4">Splash is at the forefront of a growing movement to ensure that children in urban poverty have the resources they need for healthy development.</p>
-                            <div class="progress-bar mb-2">
-                                <div class="progress" style="width: 0%"></div>
-                            </div>
-                            <p class="text-gray-600 mb-4">$0.00 raised of $15000.00 goal</p>
-                            <a href="/projects/splash" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md inline-block">View Details</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Additional Project Cards (can be added as needed) -->
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="/api/placeholder/600/400" alt="Clean Rivers project" class="w-full h-56 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Clean Rivers</h3>
-                            <p class="text-gray-700 mb-4">Working to restore and protect rivers in developing countries to provide sustainable water sources for local communities.</p>
-                            <div class="progress-bar mb-2">
-                                <div class="progress" style="width: 25%"></div>
-                            </div>
-                            <p class="text-gray-600 mb-4">$5000.00 raised of $20000.00 goal</p>
-                            <a href="/projects/clean-rivers" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md inline-block">View Details</a>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="/api/placeholder/600/400" alt="Water Wells project" class="w-full h-56 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Water Wells</h3>
-                            <p class="text-gray-700 mb-4">Building sustainable wells in drought-prone areas to provide reliable access to clean drinking water year-round.</p>
-                            <div class="progress-bar mb-2">
-                                <div class="progress" style="width: 65%"></div>
-                            </div>
-                            <p class="text-gray-600 mb-4">$13000.00 raised of $20000.00 goal</p>
-                            <a href="/projects/water-wells" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md inline-block">View Details</a>
+                        <div class="p-6 flex items-center justify-center h-full">
+                            <p class="text-gray-500 text-lg">Loading projects...</p>
                         </div>
                     </div>
                 </div>
@@ -169,30 +161,30 @@
                         <h2 class="text-3xl font-bold text-center text-gray-800">Make a Secure Donation</h2>
                     </div>
                     <div class="p-8">
-                        <form>
+                        <form id="donationForm">
                             <div class="mb-6">
                                 <label class="block text-gray-700 text-xl mb-4">Choose an amount</label>
                                 <div class="grid grid-cols-4 gap-4 mb-4">
-                                    <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-md">$10</button>
-                                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md">$25</button>
-                                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md">$50</button>
-                                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md">$100</button>
+                                    <button type="button" class="donation-amount bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-md" data-amount="10">$10</button>
+                                    <button type="button" class="donation-amount bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md" data-amount="25">$25</button>
+                                    <button type="button" class="donation-amount bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md" data-amount="50">$50</button>
+                                    <button type="button" class="donation-amount bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md" data-amount="100">$100</button>
                                 </div>
-                                <input type="text" placeholder="Enter custom amount" class="w-full border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <input type="text" id="customAmount" placeholder="Enter custom amount" class="w-full border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             </div>
                             
                             <div class="mb-6">
                                 <label class="block text-gray-700 text-xl mb-4">Payment method</label>
                                 <div class="grid grid-cols-2 gap-4 mb-4">
-                                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 border border-blue-500 font-bold py-3 px-4 rounded-md">Credit/Debit Card</button>
-                                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md">PayPal</button>
+                                    <button type="button" class="payment-method bg-white hover:bg-gray-100 text-gray-800 border border-blue-500 font-bold py-3 px-4 rounded-md active" data-method="Credit/Debit Card">Credit/Debit Card</button>
+                                    <button type="button" class="payment-method bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 font-bold py-3 px-4 rounded-md" data-method="PayPal">PayPal</button>
                                 </div>
                                 
-                                <input type="text" placeholder="Name on Card" class="w-full border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4">
+                                <input type="text" id="nameOnCard" placeholder="Name on Card" class="w-full border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4">
                                 
                                 <div class="grid grid-cols-3 gap-4 mb-4">
-                                    <input type="text" placeholder="Card Number" class="col-span-2 border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <input type="text" placeholder="MM/YY" class="border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <input type="text" id="cardNumber" placeholder="Card Number" class="col-span-2 border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <input type="text" id="cardExpiry" placeholder="MM/YY" class="border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 </div>
                                 
                                 <div class="flex items-center mb-4">
@@ -200,14 +192,14 @@
                                     <label for="save-card" class="text-gray-700">Save my card for future donations</label>
                                 </div>
                                 
-                                <input type="email" placeholder="Email address" class="w-full border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6">
+                                <input type="email" id="donorEmail" placeholder="Email address" class="w-full border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6">
                                 
-                                <button type="button" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-md text-lg">
+                                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-md text-lg">
                                     Donate Now
                                 </button>
                                 
                                 <div class="mt-6 text-center text-gray-700">
-                                    <span class="inline-block mr-2">📧</span> A receipt has been sent to your email
+                                    <span class="inline-block mr-2">📧</span> A receipt will be sent to your email
                                 </div>
                             </div>
                         </form>
@@ -225,12 +217,12 @@
                     <div class="p-8">
                         <h2 class="text-3xl font-bold mb-2 text-gray-800">Sign In</h2>
                         <p class="text-gray-600 mb-6">Sign into your Account</p>
-                        <form>
-                            <input type="text" placeholder="Username" value="AdamSmith" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <form id="loginForm">
+                            <input type="text" id="loginUsername" placeholder="Username" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             
-                            <input type="password" placeholder="Password" value="••••••••••••" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="password" id="loginPassword" placeholder="Password" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             
-                            <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md mb-4">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md mb-4">
                                 Sign In
                             </button>
                             
@@ -253,20 +245,20 @@
                     <div class="p-8">
                         <h2 class="text-3xl font-bold mb-2 text-gray-800">Sign Up</h2>
                         <p class="text-gray-600 mb-6">Create your Account</p>
-                        <form>
-                            <input type="text" placeholder="Username" value="AdamSmith" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <form id="signupForm">
+                            <input type="text" id="signupUsername" placeholder="Username" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             
-                            <input type="email" placeholder="Email*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="email" id="signupEmail" placeholder="Email*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             
-                            <input type="text" placeholder="First Name*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="text" id="signupFirstName" placeholder="First Name*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             
-                            <input type="text" placeholder="Last Name*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="text" id="signupLastName" placeholder="Last Name*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             
-                            <input type="password" placeholder="Password*" value="••••••••••••" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="password" id="signupPassword" placeholder="Password*" class="w-full border border-gray-300 bg-blue-50 rounded-md py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             
-                            <input type="password" placeholder="Confirm Password*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="password" id="signupConfirmPassword" placeholder="Confirm Password*" class="w-full border border-gray-300 rounded-md py-3 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             
-                            <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md mb-4">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md mb-4">
                                 Sign Up
                             </button>
                             
@@ -274,6 +266,49 @@
                                 <p>Already have an account? <a href="#login" class="text-blue-500 hover:underline">Sign In</a></p>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profile" class="hidden">
+        <section class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-blue-50 py-6 px-8 border-b">
+                        <h2 class="text-3xl font-bold text-center text-gray-800">My Profile</h2>
+                    </div>
+                    <div class="p-8">
+                        <div class="mb-8">
+                            <h3 class="text-2xl font-bold mb-4">Account Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <p class="text-gray-600">Username</p>
+                                    <p id="profileUsername" class="text-xl font-medium">Loading...</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">Email</p>
+                                    <p id="profileEmail" class="text-xl font-medium">Loading...</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">First Name</p>
+                                    <p id="profileFirstName" class="text-xl font-medium">Loading...</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">Last Name</p>
+                                    <p id="profileLastName" class="text-xl font-medium">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4">My Donations</h3>
+                            <div id="userDonations" class="space-y-4">
+                                <p>You haven't made any donations yet.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -314,10 +349,25 @@
     </footer>
 
     <script>
-        // Simple routing system
-        document.addEventListener('DOMContentLoaded', function() {
+        // Store auth token and user data
+        let authToken = localStorage.getItem('authToken');
+        let currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        
+        // Notification system
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = isError ? 'notification error show' : 'notification show';
+            
+            setTimeout(() => {
+                notification.className = isError ? 'notification error' : 'notification';
+            }, 3000);
+        }
+        
+        // Page routing system
+        function setupRouting() {
             // Get all elements with page IDs
-            const pages = document.querySelectorAll('[id^="home"], [id^="donate"], [id^="login"], [id^="signup"]');
+            const pages = document.querySelectorAll('[id^="home"], [id^="donate"], [id^="login"], [id^="signup"], [id^="profile"]');
             
             // Function to show a specific page and hide others
             function showPage(pageId) {
@@ -370,6 +420,20 @@
                 });
             });
             
+            document.querySelectorAll('a[href="/profile"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (authToken) {
+                        showPage('profile');
+                        loadUserProfile();
+                    } else {
+                        showPage('login');
+                        showNotification('Please log in to view your profile', true);
+                    }
+                    window.scrollTo(0, 0);
+                });
+            });
+            
             document.querySelectorAll('a[href="/"]').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -377,7 +441,353 @@
                     window.scrollTo(0, 0);
                 });
             });
+        }
+        
+        // Authentication management
+        function updateAuthUI() {
+            const loginNav = document.getElementById('loginNav');
+            const signupNav = document.getElementById('signupNav');
+            const profileNav = document.getElementById('profileNav');
+            const logoutNav = document.getElementById('logoutNav');
+            
+            if (authToken) {
+                // User is logged in
+                loginNav.classList.add('hidden');
+                signupNav.classList.add('hidden');
+                profileNav.classList.remove('hidden');
+                logoutNav.classList.remove('hidden');
+            } else {
+                // User is logged out
+                loginNav.classList.remove('hidden');
+                signupNav.classList.remove('hidden');
+                profileNav.classList.add('hidden');
+                logoutNav.classList.add('hidden');
+            }
+        }
+        
+        function setupLogout() {
+            document.getElementById('logoutNav').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Clear authentication
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('currentUser');
+                authToken = null;
+                currentUser = null;
+                
+                // Update UI
+                updateAuthUI();
+                
+                // Redirect to home
+                document.querySelector('a[href="/"]').click();
+                
+                showNotification('You have been logged out successfully');
+            });
+        }
+        
+        // API Functions
+        async function loadProjects() {
+            try {
+                const response = await fetch('/api/projects');
+                const projects = await response.json();
+                
+                const projectsContainer = document.getElementById('projects-container');
+                
+                if (projects.length === 0) {
+                    projectsContainer.innerHTML = '<p class="text-center col-span-3 text-gray-500">No projects available at the moment.</p>';
+                    return;
+                }
+                
+                projectsContainer.innerHTML = '';
+                
+                projects.forEach(project => {
+                    const progressPercentage = (project.raisedAmount / project.goalAmount) * 100;
+                    
+                    const projectCard = `
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="${project.image || '/api/placeholder/600/400'}" alt="${project.name}" class="w-full h-56 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">${project.name}</h3>
+                                <p class="text-gray-700 mb-4">${project.description}</p>
+                                <div class="progress-bar mb-2">
+                                    <div class="progress" style="width: ${progressPercentage}%"></div>
+                                </div>
+                                <p class="text-gray-600 mb-4">$${project.raisedAmount.toFixed(2)} raised of $${project.goalAmount.toFixed(2)} goal</p>
+                                <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md inline-block project-donate" data-project="${project.id}">Donate Now</a>
+                            </div>
+                        </div>
+                    `;
+                    
+                    projectsContainer.innerHTML += projectCard;
+                });
+                
+                // Add event listeners to the "Donate Now" buttons
+                document.querySelectorAll('.project-donate').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const projectId = this.getAttribute('data-project');
+                        sessionStorage.setItem('selectedProjectId', projectId);
+                        document.querySelector('a[href="/donate"]').click();
+                    });
+                });
+            } catch (err) {
+                console.error('Error loading projects:', err);
+                document.getElementById('projects-container').innerHTML = '<p class="text-center col-span-3 text-red-500">Error loading projects. Please try again later.</p>';
+            }
+        }
+        
+        async function loadUserProfile() {
+            if (!authToken || !currentUser) return;
+            
+            // Display user information
+            document.getElementById('profileUsername').textContent = currentUser.username || 'N/A';
+            document.getElementById('profileEmail').textContent = currentUser.email || 'N/A';
+            document.getElementById('profileFirstName').textContent = currentUser.firstName || 'N/A';
+            document.getElementById('profileLastName').textContent = currentUser.lastName || 'N/A';
+            
+            // In a real implementation, you would fetch the user's donations here
+            // This is simplified since we're using in-memory storage
+            document.getElementById('userDonations').innerHTML = '<p>Donation history is not available in the demo.</p>';
+        }
+        
+        // Form Handlers
+        function setupDonationForm() {
+            // Handle donation amount selection
+            document.querySelectorAll('.donation-amount').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.donation-amount').forEach(btn => {
+                        btn.classList.remove('bg-blue-500', 'text-white');
+                        btn.classList.add('bg-white', 'text-gray-800');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.remove('bg-white', 'text-gray-800');
+                    this.classList.add('bg-blue-500', 'text-white');
+                    
+                    // Set the custom amount input to the selected amount
+                    document.getElementById('customAmount').value = this.getAttribute('data-amount');
+                });
+            });
+            
+            // Handle payment method selection
+            document.querySelectorAll('.payment-method').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.payment-method').forEach(btn => {
+                        btn.classList.remove('border-blue-500');
+                        btn.classList.add('border-gray-300');
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.remove('border-gray-300');
+                    this.classList.add('border-blue-500');
+                    this.classList.add('active');
+                });
+            });
+            
+            // Handle donation form submission
+            document.getElementById('donationForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const customAmount = document.getElementById('customAmount').value;
+                const activeAmountButton = document.querySelector('.donation-amount.bg-blue-500');
+                const amount = customAmount || (activeAmountButton ? activeAmountButton.getAttribute('data-amount') : '10');
+                
+                const activePaymentMethod = document.querySelector('.payment-method.active');
+                const paymentMethod = activePaymentMethod ? activePaymentMethod.getAttribute('data-method') : 'Credit/Debit Card';
+                
+                const nameOnCard = document.getElementById('nameOnCard').value;
+                const email = document.getElementById('donorEmail').value;
+                
+                if (!amount || !email) {
+                    showNotification('Please provide an amount and email address', true);
+                    return;
+                }
+                
+                const projectId = sessionStorage.getItem('selectedProjectId');
+                
+                try {
+                    const response = await fetch('/api/donations', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': authToken ? `Bearer ${authToken}` : ''
+                        },
+                        body: JSON.stringify({
+                            amount: parseFloat(amount),
+                            paymentMethod,
+                            nameOnCard,
+                            email,
+                            projectId
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        showNotification('Thank you for your donation!');
+                        this.reset();
+                        sessionStorage.removeItem('selectedProjectId');
+                        
+                        // Reload projects to show updated funding
+                        setTimeout(() => {
+                            document.querySelector('a[href="/"]').click();
+                        }, 2000);
+                    } else {
+                        const data = await response.json();
+                        showNotification(data.message || 'There was a problem with your donation', true);
+                    }
+                } catch (err) {
+                    console.error('Error making donation:', err);
+                    showNotification('There was a problem connecting to the server', true);
+                }
+            });
+        }
+        
+        function setupLoginForm() {
+            document.getElementById('loginForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('loginUsername').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                if (!username || !password) {
+                    showNotification('Please provide both username and password', true);
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username,
+                            password
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        // Store authentication information
+                        authToken = data.token;
+                        localStorage.setItem('authToken', authToken);
+                        
+                        // For this demo, create a user object
+                        currentUser = {
+                            id: data.userId,
+                            username: username,
+                            email: username + '@example.com', // In a real app, this would come from the server
+                            firstName: 'Demo',
+                            lastName: 'User'
+                        };
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        
+                        // Update UI
+                        updateAuthUI();
+                        
+                        showNotification('You have been logged in successfully');
+                        this.reset();
+                        
+                        // Redirect to home
+                        document.querySelector('a[href="/"]').click();
+                    } else {
+                        showNotification(data.message || 'Login failed', true);
+                    }
+                } catch (err) {
+                    console.error('Error during login:', err);
+                    showNotification('There was a problem connecting to the server', true);
+                }
+            });
+        }
+        
+        function setupSignupForm() {
+            document.getElementById('signupForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('signupUsername').value;
+                const email = document.getElementById('signupEmail').value;
+                const firstName = document.getElementById('signupFirstName').value;
+                const lastName = document.getElementById('signupLastName').value;
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('signupConfirmPassword').value;
+                
+                if (!username || !email || !firstName || !lastName || !password) {
+                    showNotification('Please fill in all required fields', true);
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    showNotification('Passwords do not match', true);
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/api/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username,
+                            email,
+                            firstName,
+                            lastName,
+                            password
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        // Store authentication information
+                        authToken = data.token;
+                        localStorage.setItem('authToken', authToken);
+                        
+                        // Store user information
+                        currentUser = {
+                            id: data.userId,
+                            username,
+                            email,
+                            firstName,
+                            lastName
+                        };
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        
+                        // Update UI
+                        updateAuthUI();
+                        
+                        showNotification('Your account has been created successfully');
+                        this.reset();
+                        
+                        // Redirect to home
+                        document.querySelector('a[href="/"]').click();
+                    } else {
+                        showNotification(data.message || 'Registration failed', true);
+                    }
+                } catch (err) {
+                    console.error('Error during signup:', err);
+                    showNotification('There was a problem connecting to the server', true);
+                }
+            });
+        }
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up page routing
+            setupRouting();
+            
+            // Set up authentication UI
+            updateAuthUI();
+            setupLogout();
+            
+            // Set up form handlers
+            setupDonationForm();
+            setupLoginForm();
+            setupSignupForm();
+            
+            // Load initial data
+            loadProjects();
         });
-    </script>
-</body>
-</html>
