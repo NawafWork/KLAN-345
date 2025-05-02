@@ -1,15 +1,15 @@
 services:
   - type: web
-    name: charity-water-app
+    name: water-charity-backend
     env: node
     plan: free
     buildCommand: npm install
-    startCommand: npm start
+    startCommand: node index.js
     envVars:
+      - key: PORT
+        value: 3000
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
     healthCheckPath: /health
 
 databases:

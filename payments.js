@@ -1,36 +1,36 @@
-try {
-  require('dotenv').config();
-} catch (error) {
-  console.log('No .env file found, using environment variables');
-}
-
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+// Mock payment system for class project
+console.log('Using mock payment system for demonstration purposes');
 
 /**
- * Create a payment intent for a donation
+ * Create a payment intent for a donation (mock)
  * @param {number} amount - Amount in cents
  * @param {string} currency - Currency code (e.g., 'usd')
  * @param {object} metadata - Additional metadata about the donation
- * @returns {Promise<Object>} - Stripe PaymentIntent object
+ * @returns {Promise<Object>} - Mock PaymentIntent object
  */
 async function createPaymentIntent(amount, currency = 'usd', metadata = {}) {
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
+    // Generate a fake client secret
+    const clientSecret = `mock_pi_${Date.now()}_secret_${Math.random().toString(36).substring(2, 15)}`;
+    
+    console.log(`Mock payment intent created for ${amount/100} ${currency}`);
+    
+    return {
+      id: `mock_pi_${Date.now()}`,
+      client_secret: clientSecret,
       amount,
       currency,
       metadata,
-      payment_method_types: ['card'],
-    });
-    
-    return paymentIntent;
+      status: 'requires_confirmation'
+    };
   } catch (error) {
-    console.error('Error creating payment intent:', error);
+    console.error('Error creating mock payment intent:', error);
     throw error;
   }
 }
 
 /**
- * Process a donation payment
+ * Process a donation payment (mock)
  * @param {string} paymentMethodId - ID of the payment method
  * @param {number} amount - Amount in cents
  * @param {string} currency - Currency code (e.g., 'usd')
@@ -39,23 +39,23 @@ async function createPaymentIntent(amount, currency = 'usd', metadata = {}) {
  */
 async function processDonation(paymentMethodId, amount, currency = 'usd', metadata = {}) {
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency,
-      payment_method: paymentMethodId,
-      metadata,
-      confirm: true,
-      confirmation_method: 'manual',
-      description: `Donation for ${metadata.projectName || 'Charity Water Project'}`,
-    });
+    // Simulate a payment process
+    console.log(`Processing mock donation of ${amount/100} ${currency} for ${metadata.projectName || 'unknown project'}`);
+    
+    // Simulate random success (90% success rate)
+    const isSuccessful = Math.random() < 0.9;
+    
+    if (!isSuccessful) {
+      throw new Error('Payment declined (mock)');
+    }
     
     return {
       success: true,
-      paymentIntentId: paymentIntent.id,
-      status: paymentIntent.status,
+      paymentIntentId: `mock_pi_${Date.now()}`,
+      status: 'succeeded'
     };
   } catch (error) {
-    console.error('Error processing donation:', error);
+    console.error('Error processing mock donation:', error);
     return {
       success: false,
       error: error.message,
@@ -64,16 +64,22 @@ async function processDonation(paymentMethodId, amount, currency = 'usd', metada
 }
 
 /**
- * Retrieve payment details
+ * Retrieve payment details (mock)
  * @param {string} paymentIntentId - ID of the payment intent
  * @returns {Promise<Object>} - Payment details
  */
 async function getPaymentDetails(paymentIntentId) {
   try {
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-    return paymentIntent;
+    return {
+      id: paymentIntentId,
+      status: 'succeeded',
+      amount: 2500,
+      currency: 'usd',
+      created: Date.now(),
+      metadata: {}
+    };
   } catch (error) {
-    console.error('Error retrieving payment details:', error);
+    console.error('Error retrieving mock payment details:', error);
     throw error;
   }
 }
