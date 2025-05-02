@@ -4,7 +4,7 @@
   "description": "Water charity website with full backend functionality",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node checkfiles.js && node index.js",
     "dev": "nodemon index.js",
     "build": "echo 'No build needed'"
   },
@@ -13,8 +13,9 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "path": "^0.12.7",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.16.0",
+    "mongodb": "^6.0.0",
     "mongoose": "^7.5.0",
     "serve": "^14.2.0"
   },

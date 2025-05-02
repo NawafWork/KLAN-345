@@ -9,8 +9,22 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Explicitly set trust proxy for Render
+app.set('trust proxy', true);
+
+// Add error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ message: 'Server error occurred' });
+});
+
 // Serve static frontend files from backend/build directory
-app.use(express.static(path.join(__dirname, 'backend', 'build')));
+try {
+  app.use(express.static(path.join(__dirname, 'backend', 'build')));
+  console.log(`Static directory path: ${path.join(__dirname, 'backend', 'build')}`);
+} catch (error) {
+  console.error('Error setting up static files:', error);
+}
 
 // In-memory data storage (instead of MongoDB)
 const users = [];
@@ -43,6 +57,11 @@ const projects = [
 const donations = [];
 
 // API Routes
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 // Projects
 app.get('/api/projects', (req, res) => {
   res.json(projects);
@@ -166,12 +185,18 @@ app.post('/api/login', (req, res) => {
 
 // Fallback: serve frontend for any other route
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'backend', 'build', 'index.html'));
+  try {
+    res.sendFile(path.join(__dirname, 'backend', 'build', 'index.html'));
+  } catch (error) {
+    console.error('Error serving index.html:', error);
+    res.status(500).send('Error serving application');
+  }
 });
 
 // Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Server environment: ${process.env.NODE_ENV || 'development'}`);
   console.log('Using in-memory storage (no MongoDB connection required)');
 });

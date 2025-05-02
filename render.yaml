@@ -1,37 +1,16 @@
 services:
-  # Backend API Service
   - type: web
-    name: water-charity-api
-    env: python
-    buildCommand: cd backend && pip install -r requirements.txt && python manage.py collectstatic --noinput
-    startCommand: cd backend && gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT
+    name: charity-water-app
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.0
-      - key: DEBUG
-        value: False
-      - key: SECRET_KEY
-        sync: false
-      - key: ALLOWED_HOSTS
-        value: .onrender.com,localhost,127.0.0.1
-      - key: DATABASE_URL
-        sync: false
-      - key: EMAIL_HOST_USER
-        sync: false
-      - key: EMAIL_HOST_PASSWORD
-        sync: false
-
-  # Frontend Service
-  - type: web
-    name: water-charity-frontend
-    env: static
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: ./frontend/build
-    envVars:
-      - key: NODE_VERSION
-        value: 18.15.0
-      - key: REACT_APP_API_URL
-        value: https://water-charity-api.onrender.com
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    healthCheckPath: /health
 
 databases:
   - name: water-charity-db
