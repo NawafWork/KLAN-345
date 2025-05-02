@@ -1,254 +1,81 @@
-# Charity Web Application
+# Charity Water Projects
 
-A full-stack web application for managing and contributing to charity projects, built with Django REST Framework and React.
+A simplified web application for managing and contributing to charity water projects, built with Node.js, Express, and vanilla JavaScript.
 
-## Installation & Setup
+## Project Structure
 
-### Backend Setup (Django)
+- `index.js` - Main Express server with API endpoints and static file serving
+- `backend/build/` - Contains the static frontend HTML/CSS/JS files
+- `package.json` - Project dependencies and scripts
 
-1. Clone the repository and create a virtual environment:
+## Local Development Setup
+
+### Prerequisites
+
+- Node.js 14 or higher
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 ```bash
-git clone https://github.com/NawafWork/KLAN-345
+git clone https://github.com/NawafWork/KLAN-345.git
 cd KLAN-345
-git checkout main
-cd backend
-python -m venv venv
-source venv/bin/activate  # On Windows: .\venv\Scripts\activate
 ```
 
 2. Install dependencies:
 ```bash
-pip install -r requirements.txt
-```
-
-# Generate a new secret key using Python:
-# In your terminal, run:
-# python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
-SECRET_KEY=your-generated-secret-key
-
-3. Create a .env file in the backend directory:
-```env
-SECRET_KEY=your-secret-key
-DEBUG=True
-DB_NAME=charityweb
-DB_USER=postgres
-DB_PASSWORD=your-password
-DB_HOST=localhost
-DB_PORT=5432
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
-```
-
-Make sure to enable app password (gmail use only)
-
-4. Set up the database:
-Create a postgreSQL database 
-
-DB_NAME=charityweb
-DB_USER=postgres
-DB_PWD=your-password
-DB_HOST=localhost
-DB_PORT=5432
-DEBUG=True
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
-
-5. Run the development server:
-```bash
-python manage.py runserver
-```
-
-### Frontend Setup (React)
-
-1. Navigate to the frontend directory:
-```bash
-cd frontend
 npm install
 ```
 
-2. Create a .env file:
-```env
-REACT_APP_API_URL=http://localhost:8000
-REACT_APP_MAPBOX_TOKEN=your-mapbox-token
-```
-
-
 3. Start the development server:
 ```bash
-npm run build
-
-npm start
+npm run dev
 ```
 
-## Implementation
+4. Visit `http://localhost:3000` in your browser
 
-### Core Features
+## API Endpoints
 
-1. **Authentication System**
-   - JWT-based authentication using Djoser
-   - Token refresh mechanism
-   - Password reset and email verification
-   - Custom user model with extended fields
+- `GET /api/projects` - Get all charity water projects
+- `GET /api/projects/:id` - Get a specific project by ID
+- `POST /api/donations` - Make a donation to a project
+- `POST /api/signup` - Create a new user account
+- `POST /api/login` - Log in to an existing account
 
-2. **Charity Project Management**
-   - CRUD operations for charity projects
-   - Location-based project tracking using MapBox
-   - Progress tracking with donation goals
-   - File upload and management
+## Deployment to Render
 
-3. **Donation System**
-   - Secure payment processing
-   - Email notifications for donations
-   - Goal achievement tracking
-   - Transaction history
+This project is configured for easy deployment to Render.com:
 
-### Architecture & Component Interaction
+1. Push the code to GitHub
 
-1. **Frontend-Backend Communication**
-```javascript
-// Axios instance configuration
-const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    withCredentials: true
-});
-```
+2. In Render.com, create a new Web Service and select your GitHub repository
 
-2. **State Management with Redux**
-```javascript
-// Action creators
-export const createProject = (formData, navigate) => async dispatch => {
-    try {
-        const res = await axiosInstance.post('/api/charities/projects/', formData);
-        dispatch({
-            type: CREATE_PROJECT,
-            payload: res.data
-        });
-    } catch (err) {
-        // Error handling
-    }
-};
-```
+3. Use the following settings:
+   - Environment: Node.js
+   - Build Command: `npm run build`
+   - Start Command: `npm start`
 
-3. **MapBox Integration**
-```javascript
-const ProjectsMap = ({ projects }) => {
-    return (
-        <Map
-            mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-            // Map configuration
-        >
-            {projects.map(project => (
-                <Marker key={project.id} 
-                    latitude={project.latitude}
-                    longitude={project.longitude}>
-                    // Marker content
-                </Marker>
-            ))}
-        </Map>
-    );
-};
-```
+4. No additional configuration is required - the app uses in-memory storage for this simplified version
 
-## Testing
+## Features
 
-### Test Strategy
+- View charity water projects with progress bars
+- See funding progress for each project
+- User authentication (signup/login)
+- Make donations to projects
 
-1. **Unit Tests**
-   - Backend: Django TestCase for models and views
-   - Frontend: Jest and React Testing Library
+## Notes
 
-2. **Integration Tests**
-   - API endpoint testing
-   - Redux action/reducer integration
-   - Form submission flows
+This is a simplified version with in-memory data storage. In a production application, you would want to:
 
-3. **End-to-End Tests**
-   - User journey testing
-   - Cross-browser compatibility
+1. Use a real database like MongoDB or PostgreSQL
+2. Add proper authentication with password hashing
+3. Implement a more robust frontend framework
 
-### Sample Test Cases
+## Troubleshooting
 
-```python
-class CharityProjectTests(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(...)
-        self.client = APIClient()
-        
-    def test_create_project(self):
-        data = {
-            'title': 'Test Project',
-            'description': 'Test Description',
-            'goal_amount': 1000.00
-        }
-        response = self.client.post('/api/charities/projects/', data)
-        self.assertEqual(response.status_code, 201)
-```
-
-### Stop Testing Criteria
-- All test cases pass successfully
-- 80% code coverage achieved
-- No critical or high-priority bugs remaining
-- Performance benchmarks met
-
-## Security Measures
-
-1. **JWT Authentication**
-   - Token-based authentication
-   - Refresh token mechanism
-   - Password hashing
-
-2. **CORS Configuration**
-```python
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:8000",
-]
-```
-
-3. **Input Validation**
-   - Form validation
-   - API request validation
-   - SQL injection prevention
-
-## Performance Optimization
-
-1. **Frontend**
-   - Lazy loading of components
-   - Redux state optimization
-   - Image optimization
-
-2. **Backend**
-   - Database query optimization
-   - Caching implementation
-   - Pagination for large datasets
-
-## Usability Features
-
-1. **User Interface**
-   - Responsive design
-   - Intuitive navigation
-   - Form validation feedback
-   - Loading states
-
-2. **Error Handling**
-   - User-friendly error messages
-   - Graceful error recovery
-   - Network error handling
-
-## Deployment Considerations
-
-1. **Environment Configuration**
-   - Separate development/production settings
-   - Environment variable management
-   - Static file serving
-
-2. **Database Management**
-   - Migration management
-   - Backup procedures
-   - Data integrity checks
+If the app appears as a static image when deployed:
+1. Check that the server is correctly serving static files from `backend/build`
+2. Verify that the API endpoints are responding correctly
+3. Ensure the build and start commands are properly configured on Render

@@ -8,7 +8,9 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname)));
+
+// Serve static frontend files from backend/build directory
+app.use(express.static(path.join(__dirname, 'backend', 'build')));
 
 // In-memory data storage (instead of MongoDB)
 const users = [];
@@ -16,7 +18,7 @@ const projects = [
   {
     id: '1',
     name: 'Splash',
-    description: 'Splash is at the forefront of a growing movement to ensure that children in urban poverty have the resources they need for healthy development.',
+    description: 'Splash is at the forefront of a growing movement to ensure that children in urban poverty have the resources they need for healthy development and proper education through clean water sources.',
     goalAmount: 15000,
     raisedAmount: 0,
     image: '/api/placeholder/600/400'
@@ -24,7 +26,7 @@ const projects = [
   {
     id: '2',
     name: 'Clean Rivers',
-    description: 'Working to restore and protect rivers in developing countries to provide sustainable water sources for local communities.',
+    description: 'Working to restore and protect rivers in developing countries to provide sustainable water sources for local communities and preserve the natural ecosystem for future generations.',
     goalAmount: 20000,
     raisedAmount: 5000,
     image: '/api/placeholder/600/400'
@@ -32,7 +34,7 @@ const projects = [
   {
     id: '3',
     name: 'Water Wells',
-    description: 'Building sustainable wells in drought-prone areas to provide reliable access to clean drinking water year-round.',
+    description: 'Building sustainable wells in drought-prone areas to provide reliable access to clean drinking water year-round for communities facing severe water scarcity and health challenges.',
     goalAmount: 20000,
     raisedAmount: 13000,
     image: '/api/placeholder/600/400'
@@ -162,9 +164,9 @@ app.post('/api/login', (req, res) => {
   }
 });
 
-// Serve the main HTML file for all other routes
+// Fallback: serve frontend for any other route
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'backend', 'build', 'index.html'));
 });
 
 // Start server
