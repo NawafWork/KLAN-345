@@ -485,6 +485,10 @@
         <i class="fas fa-check-circle"></i>
         <h3>Thank you for your donation!</h3>
         <p>Your contribution will make a real difference in providing clean water to communities in need. A confirmation email has been sent to your email address.</p>
+        <div style="margin-top: 20px; text-align: center;">
+          <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=300&q=80" alt="Happy children with clean water" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+          <p style="margin-top: 15px; font-style: italic; color: #666;">Your generosity brings smiles and clean water to children worldwide.</p>
+        </div>
       </div>
       
       <div id="error-message" class="error-message">
@@ -557,10 +561,21 @@
         const projectEl = document.createElement('div');
         projectEl.className = 'project';
         
-        // Use a placeholder image or you can use actual project images
+        // Use real images for each project
+        let projectImage = '';
+        if (project.name === 'Splash') {
+          projectImage = 'https://images.unsplash.com/photo-1575962446758-433d51abf1e6?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80';
+        } else if (project.name === 'Clean Rivers') {
+          projectImage = 'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80';
+        } else if (project.name === 'Water Wells') {
+          projectImage = 'https://images.unsplash.com/photo-1594149929911-78975a43d4f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80';
+        } else {
+          projectImage = 'https://source.unsplash.com/random/600x400/?water,charity';
+        }
+        
         projectEl.innerHTML = `
           <div class="project-image">
-            <img src="https://source.unsplash.com/random/600x400/?water,charity,${project.name}" alt="${project.name}">
+            <img src="${projectImage}" alt="${project.name}">
           </div>
           <div class="project-content">
             <h2 class="project-title">${project.name}</h2>
@@ -801,24 +816,20 @@
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          // Show success message
+          // Show success message immediately
           document.getElementById('success-message').style.display = 'block';
           document.getElementById('donation-form').style.display = 'none';
           
-          // Refresh projects after 3 seconds
-          setTimeout(() => {
-            fetch('/api/projects')
-              .then(res => res.json())
-              .then(projects => {
-                projectsData = projects;
-                displayProjects(projects);
-                
-                // Close modal after refreshing projects
-                setTimeout(() => {
-                  document.getElementById('donation-modal').style.display = 'none';
-                }, 1000);
-              });
-          }, 3000);
+          // Show confetti animation
+          showConfetti();
+          
+          // Refresh projects immediately
+          fetch('/api/projects')
+            .then(res => res.json())
+            .then(projects => {
+              projectsData = projects;
+              displayProjects(projects);
+            });
         } else {
           // Show error message
           document.getElementById('error-details').textContent = data.message || 'Payment declined';
@@ -837,6 +848,54 @@
         donateButton.innerHTML = '<i class="fas fa-heart"></i> Donate Now';
       });
     });
+    
+    // Add confetti animation for successful donations
+    function showConfetti() {
+      const confettiCount = 200;
+      const container = document.querySelector('.modal-content');
+      
+      for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.style.cssText = `
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          background-color: ${['#2196F3', '#4CAF50', '#FFC107', '#E91E63'][Math.floor(Math.random() * 4)]};
+          top: -10px;
+          left: ${Math.random() * 100}%;
+          opacity: ${Math.random()};
+          transform: rotate(${Math.random() * 360}deg);
+          animation: confetti-fall ${1 + Math.random() * 2}s linear forwards;
+          z-index: 1000;
+        `;
+        container.appendChild(confetti);
+      }
+      
+      // Add animation keyframes to head
+      if (!document.getElementById('confetti-style')) {
+        const style = document.createElement('style');
+        style.id = 'confetti-style';
+        style.innerHTML = `
+          @keyframes confetti-fall {
+            0% { 
+              transform: translateY(-10px) rotate(0deg); 
+              opacity: 1;
+            }
+            100% { 
+              transform: translateY(${container.offsetHeight}px) rotate(360deg); 
+              opacity: 0;
+            }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      
+      // Clean up confetti after animation
+      setTimeout(() => {
+        const confettis = container.querySelectorAll('div[style*="confetti-fall"]');
+        confettis.forEach(c => c.remove());
+      }, 3000);
+    }
   </script>
 </body>
 </html>
