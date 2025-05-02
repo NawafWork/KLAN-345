@@ -10,10 +10,6 @@ services:
         value: production
       - key: PORT
         value: 10000
-      - key: STRIPE_SECRET_KEY
-        sync: false
-      - key: STRIPE_PUBLISHABLE_KEY
-        sync: false
     healthCheckPath: /health
 
 databases:

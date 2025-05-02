@@ -1,9 +1,4 @@
-try {
-  require('dotenv').config();
-} catch (error) {
-  console.log('No .env file found, using environment variables');
-}
-
+// No need for dotenv since we're using a mock payment system
 const express = require('express');
 const path = require('path');
 const cors = require('cors');

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Charity Water Projects</title>
-  <script src="https://js.stripe.com/v3/"></script>
+  <!-- Removed Stripe.js since we're using a mock payment system -->
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -205,9 +205,19 @@
         </div>
         
         <div class="form-row">
-          <label for="card-element">Credit or Debit Card</label>
-          <div id="card-element"></div>
-          <div id="card-errors" role="alert"></div>
+          <label for="mock-card-number">Card Number</label>
+          <input type="text" id="mock-card-number" placeholder="4242 4242 4242 4242" required>
+        </div>
+        
+        <div class="form-row" style="display: flex; gap: 10px;">
+          <div style="flex: 1;">
+            <label for="mock-card-expiry">Expiration (MM/YY)</label>
+            <input type="text" id="mock-card-expiry" placeholder="12/25" required>
+          </div>
+          <div style="flex: 1;">
+            <label for="mock-card-cvc">CVC</label>
+            <input type="text" id="mock-card-cvc" placeholder="123" required>
+          </div>
         </div>
         
         <button type="submit" id="donate-button" class="button">Donate Now</button>
@@ -226,20 +236,8 @@
   </div>
 
   <script>
-    let stripe;
-    let cardElement;
     let projectsData = [];
     let currentProjectId;
-    
-    // Initialize Stripe
-    fetch('/api/payment/config')
-      .then(res => res.json())
-      .then(data => {
-        stripe = Stripe(data.publishableKey);
-      })
-      .catch(err => {
-        console.error('Error loading Stripe configuration:', err);
-      });
     
     // Fetch projects from API
     fetch('/api/projects')
@@ -304,23 +302,6 @@
             document.getElementById('error-message').style.display = 'none';
             document.getElementById('donation-modal').style.display = 'block';
             
-            // Initialize Stripe elements if not already done
-            if (!cardElement) {
-              const elements = stripe.elements();
-              cardElement = elements.create('card');
-              cardElement.mount('#card-element');
-              
-              // Handle real-time validation errors
-              cardElement.on('change', function(event) {
-                const displayError = document.getElementById('card-errors');
-                if (event.error) {
-                  displayError.textContent = event.error.message;
-                } else {
-                  displayError.textContent = '';
-                }
-              });
-            }
-            
             currentProjectId = projectId;
           });
         });
@@ -355,7 +336,7 @@
       const name = document.getElementById('donor-name').value;
       const email = document.getElementById('donor-email').value;
       
-      // Create payment intent on server
+      // Create payment intent on server (using mock system)
       fetch('/api/payment/create-intent', {
         method: 'POST',
         headers: {
@@ -368,40 +349,20 @@
       })
       .then(res => res.json())
       .then(data => {
-        // Use Stripe to confirm the payment
-        return stripe.confirmCardPayment(data.clientSecret, {
-          payment_method: {
-            card: cardElement,
-            billing_details: {
-              name,
-              email
-            }
-          }
+        // Process the payment with the mock payment system
+        return fetch('/api/payment/process', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            paymentMethodId: 'mock_pm_' + Date.now(),
+            amount,
+            projectId: currentProjectId,
+            name,
+            email
+          })
         });
-      })
-      .then(result => {
-        if (result.error) {
-          // Show error message
-          document.getElementById('error-details').textContent = result.error.message;
-          document.getElementById('error-message').style.display = 'block';
-          document.getElementById('donation-form').style.display = 'none';
-          throw new Error(result.error.message);
-        } else {
-          // Payment succeeded, create donation record on server
-          return fetch('/api/payment/process', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              paymentMethodId: result.paymentIntent.payment_method,
-              amount,
-              projectId: currentProjectId,
-              name,
-              email
-            })
-          });
-        }
       })
       .then(res => res.json())
       .then(data => {
@@ -416,7 +377,7 @@
           }, 2000);
         } else {
           // Show error message
-          document.getElementById('error-details').textContent = data.message;
+          document.getElementById('error-details').textContent = data.message || 'Payment declined';
           document.getElementById('error-message').style.display = 'block';
           document.getElementById('donation-form').style.display = 'none';
         }
