@@ -416,9 +416,449 @@
         margin: 10% auto;
       }
     }
+    
+    /* Navbar and Authentication Styles */
+    .navbar {
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 0;
+    }
+    
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
+    
+    .navbar-logo a {
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    
+    .navbar-logo i {
+      margin-right: 0.5rem;
+    }
+    
+    .navbar-menu {
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-link {
+      color: var(--text-color);
+      text-decoration: none;
+      margin-right: 1.5rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .nav-link:hover {
+      color: var(--primary-color);
+    }
+    
+    .nav-link i {
+      margin-right: 0.3rem;
+    }
+    
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    
+    .auth-button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    
+    .auth-button:hover {
+      background-color: var(--secondary-color);
+    }
+    
+    .user-profile-menu {
+      position: relative;
+    }
+    
+    .profile-button {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+    }
+    
+    .profile-button i {
+      font-size: 1.2rem;
+      margin-right: 0.5rem;
+      color: var(--primary-color);
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      width: 200px;
+      padding: 1rem;
+      margin-top: 0.5rem;
+      display: none;
+      z-index: 100;
+    }
+    
+    .user-profile-menu:hover .dropdown-menu {
+      display: block;
+    }
+    
+    .dropdown-menu a {
+      display: block;
+      color: var(--text-color);
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+    
+    .dropdown-menu a:hover {
+      background-color: var(--light-gray);
+      color: var(--primary-color);
+    }
+    
+    .dropdown-menu a i {
+      margin-right: 0.5rem;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .project-location {
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .project-location-title {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .project-location-title i {
+      margin-right: 0.5rem;
+      color: var(--primary-color);
+    }
+    
+    .map-container {
+      height: 150px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: var(--border-radius);
+      position: relative;
+      background-color: #e9f5fe;
+    }
+    
+    .map-location {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-image: url('https://cdn.pixabay.com/photo/2018/01/31/05/43/web-3120321_1280.png');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .map-pin {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -100%);
+      color: var(--error-color);
+      font-size: 2rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .map-location-name {
+      position: absolute;
+      bottom: 0.5rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-weight: 600;
+      color: #333;
+      text-shadow: 0 0 4px white;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 0.3rem;
+      border-radius: 4px;
+      margin: 0 1rem;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    /* Auth modal styles */
+    .auth-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+    }
+    
+    .auth-modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      max-width: 450px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+    
+    .auth-form-title {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+    
+    .auth-form-subtitle {
+      color: #777;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      text-align: center;
+    }
+    
+    .auth-tab-container {
+      display: flex;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .auth-tab {
+      flex: 1;
+      text-align: center;
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+      border-bottom: 2px solid transparent;
+    }
+    
+    .auth-tab.active {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--primary-color);
+    }
+    
+    .auth-form {
+      margin-top: 1rem;
+    }
+    
+    .auth-form-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .auth-form-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* User Profile Styles */
+    .profile-section {
+      margin-bottom: 2rem;
+    }
+    
+    .profile-info {
+      background-color: var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+    
+    .info-row {
+      display: flex;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.5rem;
+    }
+    
+    .info-row:last-child {
+      margin-bottom: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    
+    .info-label {
+      font-weight: 600;
+      width: 140px;
+      color: #555;
+    }
+    
+    .info-value {
+      flex: 1;
+    }
+    
+    .empty-message {
+      text-align: center;
+      padding: 2rem;
+      color: #777;
+      font-style: italic;
+    }
+    
+    .error-message {
+      color: var(--error-color);
+      text-align: center;
+      padding: 1rem;
+    }
+    
+    /* Donation History Styles */
+    .donations-container {
+      margin-top: 1.5rem;
+    }
+    
+    .donation-item {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: var(--transition);
+    }
+    
+    .donation-item:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+    
+    .donation-project {
+      font-weight: 600;
+      color: var(--primary-color);
+      flex: 1;
+    }
+    
+    .donation-amount {
+      font-weight: 700;
+      color: var(--success-color);
+      margin: 0 1rem;
+    }
+    
+    .donation-date {
+      color: #777;
+      font-size: 0.9rem;
+    }
+    
+    /* Saved Cards Styles */
+    .cards-container {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .card-item {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      position: relative;
+      border-left: 5px solid var(--primary-color);
+    }
+    
+    .card-brand {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      font-size: 0.8rem;
+      background-color: rgba(33, 150, 243, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+    
+    .card-number {
+      font-family: monospace;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .card-expiry {
+      font-size: 0.9rem;
+      color: #777;
+      margin-bottom: 0.5rem;
+    }
+    
+    .card-name {
+      font-weight: 600;
+    }
+    
+    #add-card-button {
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body>
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-logo">
+        <a href="/"><i class="fas fa-tint"></i> Charity Water</a>
+      </div>
+      <nav class="navbar-menu">
+        <a href="#" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+        <a href="#" class="nav-link"><i class="fas fa-hand-holding-water"></i> Projects</a>
+        <a href="#" class="nav-link"><i class="fas fa-hands-helping"></i> Get Involved</a>
+        <div class="auth-buttons">
+          <a href="#" id="login-button" class="auth-button"><i class="fas fa-sign-in-alt"></i> Login</a>
+          <a href="#" id="signup-button" class="auth-button"><i class="fas fa-user-plus"></i> Sign Up</a>
+          <div id="user-profile" class="user-profile-menu hidden">
+            <button id="profile-button" class="profile-button">
+              <i class="fas fa-user-circle"></i> <span id="username-display">User</span>
+            </button>
+            <div class="dropdown-menu">
+              <a href="#" id="my-profile-link"><i class="fas fa-id-card"></i> My Profile</a>
+              <a href="#" id="my-donations-link"><i class="fas fa-history"></i> Donation History</a>
+              <a href="#" id="saved-cards-link"><i class="fas fa-credit-card"></i> Saved Cards</a>
+              <a href="#" id="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
   <div class="hero">
     <h1><i class="fas fa-tint"></i> Charity Water Projects</h1>
     <p>Help provide clean water to communities in need around the world through our charitable projects.</p>
@@ -474,6 +914,14 @@
             <input type="text" id="mock-card-cvc" placeholder="123" maxlength="3" required>
             <div class="error-text">Please enter a valid 3-digit CVC</div>
           </div>
+        </div>
+        
+        <div class="form-row save-card-option" style="display: none;">
+          <label class="checkbox-label">
+            <input type="checkbox" id="save-card-checkbox">
+            <span>Save card for future donations</span>
+          </label>
+          <div class="save-card-note">Your card will be securely stored for easier checkout next time.</div>
         </div>
         
         <button type="submit" id="donate-button" class="button">
@@ -532,10 +980,674 @@
     </div>
   </footer>
 
+  <!-- Login/Signup Modal -->
+  <div id="auth-modal" class="auth-modal">
+    <div class="auth-modal-content">
+      <span class="close-button" id="close-auth-modal"><i class="fas fa-times"></i></span>
+      
+      <div id="login-form" class="auth-form">
+        <h2 class="auth-form-title"><i class="fas fa-sign-in-alt"></i> Login</h2>
+        <p class="auth-form-subtitle">Welcome back! Please login to your account</p>
+        
+        <div class="form-row">
+          <label for="login-username"><i class="fas fa-user"></i> Username</label>
+          <input type="text" id="login-username" placeholder="Enter your username" required>
+          <div class="error-text">Please enter your username</div>
+        </div>
+        
+        <div class="form-row">
+          <label for="login-password"><i class="fas fa-lock"></i> Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password" required>
+          <div class="error-text">Please enter your password</div>
+        </div>
+        
+        <button type="button" id="login-submit" class="button">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+        
+        <a href="#" id="forgot-password-link" class="auth-form-link">Forgot your password?</a>
+        <a href="#" id="to-signup-link" class="auth-form-link">Don't have an account? Sign up</a>
+      </div>
+      
+      <div id="signup-form" class="auth-form hidden">
+        <h2 class="auth-form-title"><i class="fas fa-user-plus"></i> Sign Up</h2>
+        <p class="auth-form-subtitle">Create a new account to manage your donations</p>
+        
+        <div class="form-row">
+          <label for="signup-firstname"><i class="fas fa-user"></i> First Name</label>
+          <input type="text" id="signup-firstname" placeholder="Enter your first name" required>
+          <div class="error-text">Please enter your first name</div>
+        </div>
+        
+        <div class="form-row">
+          <label for="signup-lastname"><i class="fas fa-user"></i> Last Name</label>
+          <input type="text" id="signup-lastname" placeholder="Enter your last name" required>
+          <div class="error-text">Please enter your last name</div>
+        </div>
+        
+        <div class="form-row">
+          <label for="signup-email"><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="signup-email" placeholder="Enter your email" required>
+          <div class="error-text">Please enter a valid email address</div>
+        </div>
+        
+        <div class="form-row">
+          <label for="signup-username"><i class="fas fa-user"></i> Username</label>
+          <input type="text" id="signup-username" placeholder="Choose a username" required>
+          <div class="error-text">Please choose a username</div>
+        </div>
+        
+        <div class="form-row">
+          <label for="signup-password"><i class="fas fa-lock"></i> Password</label>
+          <input type="password" id="signup-password" placeholder="Choose a password" required>
+          <div class="error-text">Password must be at least 6 characters</div>
+        </div>
+        
+        <div class="form-row">
+          <label for="signup-confirm"><i class="fas fa-lock"></i> Confirm Password</label>
+          <input type="password" id="signup-confirm" placeholder="Confirm your password" required>
+          <div class="error-text">Passwords do not match</div>
+        </div>
+        
+        <button type="button" id="signup-submit" class="button">
+          <i class="fas fa-user-plus"></i> Create Account
+        </button>
+        
+        <a href="#" id="to-login-link" class="auth-form-link">Already have an account? Log in</a>
+      </div>
+      
+      <div id="forgot-password-form" class="auth-form hidden">
+        <h2 class="auth-form-title"><i class="fas fa-key"></i> Reset Password</h2>
+        <p class="auth-form-subtitle">Enter your email to receive a password reset link</p>
+        
+        <div class="form-row">
+          <label for="reset-email"><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="reset-email" placeholder="Enter your email" required>
+          <div class="error-text">Please enter a valid email address</div>
+        </div>
+        
+        <button type="button" id="reset-submit" class="button">
+          <i class="fas fa-paper-plane"></i> Send Reset Link
+        </button>
+        
+        <a href="#" id="back-to-login" class="auth-form-link">Back to login</a>
+      </div>
+      
+      <div id="reset-success" class="success-message">
+        <i class="fas fa-check-circle"></i>
+        <h3>Password Reset Email Sent</h3>
+        <p>We've sent an email with instructions to reset your password. Please check your inbox.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Profile Modal -->
+  <div id="profile-modal" class="auth-modal">
+    <div class="auth-modal-content" style="max-width: 600px;">
+      <span class="close-button" id="close-profile-modal"><i class="fas fa-times"></i></span>
+      
+      <div id="profile-details" class="profile-section">
+        <h2 class="auth-form-title"><i class="fas fa-user-circle"></i> My Profile</h2>
+        
+        <div class="profile-info">
+          <div class="info-row">
+            <div class="info-label">Name:</div>
+            <div class="info-value" id="profile-name">John Doe</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Username:</div>
+            <div class="info-value" id="profile-username">johndoe</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Email:</div>
+            <div class="info-value" id="profile-email">john@example.com</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Member Since:</div>
+            <div class="info-value" id="profile-date">January 1, 2023</div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="donation-history" class="profile-section hidden">
+        <h2 class="auth-form-title"><i class="fas fa-history"></i> Donation History</h2>
+        <div id="donations-list" class="donations-container">
+          <!-- Donations will be loaded here -->
+          <div class="loading">
+            <i class="fas fa-circle-notch fa-spin"></i>
+            <p>Loading your donations...</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="saved-cards" class="profile-section hidden">
+        <h2 class="auth-form-title"><i class="fas fa-credit-card"></i> Saved Payment Methods</h2>
+        <div id="cards-list" class="cards-container">
+          <!-- Cards will be loaded here -->
+          <div class="loading">
+            <i class="fas fa-circle-notch fa-spin"></i>
+            <p>Loading your saved cards...</p>
+          </div>
+        </div>
+        
+        <button id="add-card-button" class="button">
+          <i class="fas fa-plus"></i> Add New Card
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // Global variables for authentication
+    let authToken = localStorage.getItem('authToken');
+    let currentUser = null;
+    
+    // Check if user is logged in
+    if (authToken) {
+      try {
+        currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        updateAuthUI();
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+        // Clear invalid data
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('currentUser');
+      }
+    }
+    
     // Project data and functions
     let projectsData = [];
     let currentProjectId;
+    
+    // Update UI based on auth status
+    function updateAuthUI() {
+      const loginButton = document.getElementById('login-button');
+      const signupButton = document.getElementById('signup-button');
+      const userProfile = document.getElementById('user-profile');
+      const usernameDisplay = document.getElementById('username-display');
+      
+      if (authToken && currentUser) {
+        // User is logged in
+        loginButton.classList.add('hidden');
+        signupButton.classList.add('hidden');
+        userProfile.classList.remove('hidden');
+        usernameDisplay.textContent = currentUser.username;
+      } else {
+        // User is logged out
+        loginButton.classList.remove('hidden');
+        signupButton.classList.remove('hidden');
+        userProfile.classList.add('hidden');
+      }
+    }
+    
+    // Setup event listeners for authentication
+    function setupAuthListeners() {
+      // Login button
+      document.getElementById('login-button').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('auth-modal').style.display = 'block';
+        document.getElementById('login-form').classList.remove('hidden');
+        document.getElementById('signup-form').classList.add('hidden');
+        document.getElementById('forgot-password-form').classList.add('hidden');
+        document.getElementById('reset-success').style.display = 'none';
+      });
+      
+      // Signup button
+      document.getElementById('signup-button').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('auth-modal').style.display = 'block';
+        document.getElementById('signup-form').classList.remove('hidden');
+        document.getElementById('login-form').classList.add('hidden');
+        document.getElementById('forgot-password-form').classList.add('hidden');
+      });
+      
+      // Close auth modal
+      document.getElementById('close-auth-modal').addEventListener('click', function() {
+        document.getElementById('auth-modal').style.display = 'none';
+      });
+      
+      // Switch between login and signup
+      document.getElementById('to-signup-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('login-form').classList.add('hidden');
+        document.getElementById('signup-form').classList.remove('hidden');
+      });
+      
+      document.getElementById('to-login-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('signup-form').classList.add('hidden');
+        document.getElementById('login-form').classList.remove('hidden');
+      });
+      
+      // Forgot password
+      document.getElementById('forgot-password-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('login-form').classList.add('hidden');
+        document.getElementById('forgot-password-form').classList.remove('hidden');
+      });
+      
+      document.getElementById('back-to-login').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('forgot-password-form').classList.add('hidden');
+        document.getElementById('login-form').classList.remove('hidden');
+      });
+      
+      // Login submission
+      document.getElementById('login-submit').addEventListener('click', handleLogin);
+      
+      // Signup submission
+      document.getElementById('signup-submit').addEventListener('click', handleSignup);
+      
+      // Reset password submission
+      document.getElementById('reset-submit').addEventListener('click', handlePasswordReset);
+      
+      // Logout
+      document.getElementById('logout-button').addEventListener('click', function(e) {
+        e.preventDefault();
+        logout();
+      });
+      
+      // Profile links
+      document.getElementById('my-profile-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        openProfileModal('profile-details');
+      });
+      
+      document.getElementById('my-donations-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        openProfileModal('donation-history');
+        loadUserDonations();
+      });
+      
+      document.getElementById('saved-cards-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        openProfileModal('saved-cards');
+        loadSavedCards();
+      });
+      
+      // Close profile modal
+      document.getElementById('close-profile-modal').addEventListener('click', function() {
+        document.getElementById('profile-modal').style.display = 'none';
+      });
+    }
+    
+    // Handle login
+    async function handleLogin() {
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+      
+      // Basic validation
+      if (!username || !password) {
+        if (!username) {
+          document.getElementById('login-username').parentElement.classList.add('error');
+        }
+        if (!password) {
+          document.getElementById('login-password').parentElement.classList.add('error');
+        }
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          // Store auth token
+          authToken = data.token;
+          localStorage.setItem('authToken', authToken);
+          
+          // Store user data
+          currentUser = data.user;
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          
+          // Update UI
+          updateAuthUI();
+          
+          // Close modal
+          document.getElementById('auth-modal').style.display = 'none';
+          
+          // Reset form
+          document.getElementById('login-username').value = '';
+          document.getElementById('login-password').value = '';
+        } else {
+          // Show error
+          alert(data.message || 'Login failed');
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+        alert('There was a problem connecting to the server');
+      }
+    }
+    
+    // Handle signup
+    async function handleSignup() {
+      const firstName = document.getElementById('signup-firstname').value;
+      const lastName = document.getElementById('signup-lastname').value;
+      const email = document.getElementById('signup-email').value;
+      const username = document.getElementById('signup-username').value;
+      const password = document.getElementById('signup-password').value;
+      const confirmPassword = document.getElementById('signup-confirm').value;
+      
+      // Basic validation
+      let isValid = true;
+      
+      if (!firstName) {
+        document.getElementById('signup-firstname').parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        document.getElementById('signup-firstname').parentElement.classList.remove('error');
+      }
+      
+      if (!lastName) {
+        document.getElementById('signup-lastname').parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        document.getElementById('signup-lastname').parentElement.classList.remove('error');
+      }
+      
+      if (!email || !email.includes('@')) {
+        document.getElementById('signup-email').parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        document.getElementById('signup-email').parentElement.classList.remove('error');
+      }
+      
+      if (!username) {
+        document.getElementById('signup-username').parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        document.getElementById('signup-username').parentElement.classList.remove('error');
+      }
+      
+      if (!password || password.length < 6) {
+        document.getElementById('signup-password').parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        document.getElementById('signup-password').parentElement.classList.remove('error');
+      }
+      
+      if (password !== confirmPassword) {
+        document.getElementById('signup-confirm').parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        document.getElementById('signup-confirm').parentElement.classList.remove('error');
+      }
+      
+      if (!isValid) {
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+            username,
+            password
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          // Store auth token
+          authToken = data.token;
+          localStorage.setItem('authToken', authToken);
+          
+          // Store user data
+          currentUser = data.user;
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          
+          // Update UI
+          updateAuthUI();
+          
+          // Close modal
+          document.getElementById('auth-modal').style.display = 'none';
+          
+          // Reset form
+          document.getElementById('signup-firstname').value = '';
+          document.getElementById('signup-lastname').value = '';
+          document.getElementById('signup-email').value = '';
+          document.getElementById('signup-username').value = '';
+          document.getElementById('signup-password').value = '';
+          document.getElementById('signup-confirm').value = '';
+          
+          // Show welcome message
+          alert('Account created successfully! Welcome to Charity Water.');
+        } else {
+          // Show error
+          alert(data.message || 'Signup failed');
+        }
+      } catch (err) {
+        console.error('Signup error:', err);
+        alert('There was a problem connecting to the server');
+      }
+    }
+    
+    // Handle password reset
+    async function handlePasswordReset() {
+      const email = document.getElementById('reset-email').value;
+      
+      if (!email || !email.includes('@')) {
+        document.getElementById('reset-email').parentElement.classList.add('error');
+        return;
+      } else {
+        document.getElementById('reset-email').parentElement.classList.remove('error');
+      }
+      
+      try {
+        const response = await fetch('/api/forgot-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email })
+        });
+        
+        const data = await response.json();
+        
+        // Show success message (even if email doesn't exist, for security)
+        document.getElementById('forgot-password-form').classList.add('hidden');
+        document.getElementById('reset-success').style.display = 'block';
+        
+        // Reset form
+        document.getElementById('reset-email').value = '';
+      } catch (err) {
+        console.error('Password reset error:', err);
+        alert('There was a problem connecting to the server');
+      }
+    }
+    
+    // Logout user
+    function logout() {
+      // Clear auth data
+      authToken = null;
+      currentUser = null;
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('currentUser');
+      
+      // Update UI
+      updateAuthUI();
+      
+      // Close profile modal if open
+      document.getElementById('profile-modal').style.display = 'none';
+    }
+    
+    // Open profile modal
+    function openProfileModal(section) {
+      if (!authToken || !currentUser) {
+        // Not logged in, show login modal
+        document.getElementById('login-button').click();
+        return;
+      }
+      
+      // Show profile modal
+      document.getElementById('profile-modal').style.display = 'block';
+      
+      // Hide all sections
+      document.querySelectorAll('.profile-section').forEach(s => {
+        s.classList.add('hidden');
+      });
+      
+      // Show requested section
+      document.getElementById(section).classList.remove('hidden');
+      
+      // Load profile data if showing profile details
+      if (section === 'profile-details') {
+        loadUserProfile();
+      }
+    }
+    
+    // Load user profile data
+    async function loadUserProfile() {
+      if (!authToken) return;
+      
+      try {
+        const response = await fetch('/api/user/profile', {
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          }
+        });
+        
+        if (response.ok) {
+          const userData = await response.json();
+          
+          // Update profile display
+          document.getElementById('profile-name').textContent = `${userData.firstName} ${userData.lastName}`;
+          document.getElementById('profile-username').textContent = userData.username;
+          document.getElementById('profile-email').textContent = userData.email;
+          
+          // Format date
+          const createdAt = new Date(userData.createdAt);
+          document.getElementById('profile-date').textContent = createdAt.toLocaleDateString();
+        } else {
+          // Handle unauthorized or error
+          if (response.status === 401) {
+            // Token expired or invalid
+            logout();
+          }
+        }
+      } catch (err) {
+        console.error('Error loading profile:', err);
+      }
+    }
+    
+    // Load user donation history
+    async function loadUserDonations() {
+      if (!authToken) return;
+      
+      try {
+        const response = await fetch('/api/user/donations', {
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          }
+        });
+        
+        if (response.ok) {
+          const donations = await response.json();
+          
+          const donationsList = document.getElementById('donations-list');
+          
+          if (donations.length === 0) {
+            donationsList.innerHTML = '<p class="empty-message">You haven\'t made any donations yet.</p>';
+            return;
+          }
+          
+          // Sort donations by date (newest first)
+          donations.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          
+          // Generate donation history items
+          let html = '';
+          
+          donations.forEach(donation => {
+            const date = new Date(donation.createdAt).toLocaleDateString();
+            
+            html += `
+              <div class="donation-item">
+                <div class="donation-project">${donation.projectName || 'Unknown Project'}</div>
+                <div class="donation-amount">$${parseFloat(donation.amount).toFixed(2)}</div>
+                <div class="donation-date">${date}</div>
+              </div>
+            `;
+          });
+          
+          donationsList.innerHTML = html;
+        } else {
+          // Handle unauthorized or error
+          if (response.status === 401) {
+            // Token expired or invalid
+            logout();
+          }
+        }
+      } catch (err) {
+        console.error('Error loading donations:', err);
+        document.getElementById('donations-list').innerHTML = '<p class="error-message">Error loading donations. Please try again.</p>';
+      }
+    }
+    
+    // Load saved payment methods
+    async function loadSavedCards() {
+      if (!authToken) return;
+      
+      try {
+        const response = await fetch('/api/user/payment-methods', {
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          }
+        });
+        
+        if (response.ok) {
+          const cards = await response.json();
+          
+          const cardsList = document.getElementById('cards-list');
+          
+          if (cards.length === 0) {
+            cardsList.innerHTML = '<p class="empty-message">You don\'t have any saved payment methods.</p>';
+            return;
+          }
+          
+          // Generate cards list
+          let html = '';
+          
+          cards.forEach(card => {
+            html += `
+              <div class="card-item">
+                <div class="card-brand">${card.brand.toUpperCase()}</div>
+                <div class="card-number">**** **** **** ${card.last4}</div>
+                <div class="card-expiry">Expires: ${card.expiry}</div>
+                <div class="card-name">${card.name}</div>
+              </div>
+            `;
+          });
+          
+          cardsList.innerHTML = html;
+        } else {
+          // Handle unauthorized or error
+          if (response.status === 401) {
+            // Token expired or invalid
+            logout();
+          }
+        }
+      } catch (err) {
+        console.error('Error loading payment methods:', err);
+        document.getElementById('cards-list').innerHTML = '<p class="error-message">Error loading payment methods. Please try again.</p>';
+      }
+    }
+
+    // Setup auth listeners
+    setupAuthListeners();
     
     // Fetch projects from API
     fetch('/api/projects')
@@ -573,6 +1685,9 @@
           projectImage = 'https://source.unsplash.com/random/600x400/?water,charity';
         }
         
+        // Get location data
+        const locationName = project.location ? project.location.name : 'Location not specified';
+        
         projectEl.innerHTML = `
           <div class="project-image">
             <img src="${projectImage}" alt="${project.name}">
@@ -580,6 +1695,18 @@
           <div class="project-content">
             <h2 class="project-title">${project.name}</h2>
             <p class="project-description">${project.description}</p>
+            
+            <div class="project-location">
+              <div class="project-location-title">
+                <i class="fas fa-map-marker-alt"></i> Project Location
+              </div>
+              <div class="map-container">
+                <div class="map-location">
+                  <i class="fas fa-map-marker-alt map-pin"></i>
+                  <div class="map-location-name">${locationName}</div>
+                </div>
+              </div>
+            </div>
             
             <div class="stats">
               <div>
@@ -613,25 +1740,7 @@
       document.querySelectorAll('.donate-button').forEach(button => {
         button.addEventListener('click', function() {
           const projectId = this.getAttribute('data-project-id');
-          const project = projectsData.find(p => p.id === projectId);
-          
-          // Show donation modal
-          document.getElementById('donation-project-name').textContent = `Project: ${project.name}`;
-          document.getElementById('donation-form').style.display = 'block';
-          document.getElementById('success-message').style.display = 'none';
-          document.getElementById('error-message').style.display = 'none';
-          document.getElementById('donation-modal').style.display = 'block';
-          
-          // Reset form
-          document.getElementById('donation-form').reset();
-          document.getElementById('donation-amount').value = "25";
-          
-          // Reset validation classes
-          document.querySelectorAll('.form-row').forEach(row => {
-            row.classList.remove('error');
-          });
-          
-          currentProjectId = projectId;
+          showDonationModal(projectId);
         });
       });
     }
@@ -784,12 +1893,15 @@
       const name = document.getElementById('donor-name').value;
       const email = document.getElementById('donor-email').value;
       const cardNumber = document.getElementById('mock-card-number').value.replace(/\s/g, '');
+      const cardExpiry = document.getElementById('mock-card-expiry').value;
+      const saveCard = document.getElementById('save-card-checkbox').checked;
       
       // Create payment intent on server (using mock system)
       fetch('/api/payment/create-intent', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          ...authToken ? { 'Authorization': `Bearer ${authToken}` } : {}
         },
         body: JSON.stringify({
           amount,
@@ -802,7 +1914,8 @@
         return fetch('/api/payment/process', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            ...authToken ? { 'Authorization': `Bearer ${authToken}` } : {}
           },
           body: JSON.stringify({
             paymentMethodId: 'mock_pm_' + Date.now(),
@@ -816,6 +1929,11 @@
       .then(res => res.json())
       .then(data => {
         if (data.success) {
+          // If user is logged in and wants to save card, save it
+          if (authToken && saveCard) {
+            saveCardForUser(cardNumber, cardExpiry, name);
+          }
+          
           // Show success message immediately
           document.getElementById('success-message').style.display = 'block';
           document.getElementById('donation-form').style.display = 'none';
@@ -848,6 +1966,63 @@
         donateButton.innerHTML = '<i class="fas fa-heart"></i> Donate Now';
       });
     });
+    
+    // Show donation modal
+    function showDonationModal(projectId) {
+      const project = projectsData.find(p => p.id === projectId);
+      
+      // Show donation modal
+      document.getElementById('donation-project-name').textContent = `Project: ${project.name}`;
+      document.getElementById('donation-form').style.display = 'block';
+      document.getElementById('success-message').style.display = 'none';
+      document.getElementById('error-message').style.display = 'none';
+      document.getElementById('donation-modal').style.display = 'block';
+      
+      // Reset form
+      document.getElementById('donation-form').reset();
+      document.getElementById('donation-amount').value = "25";
+      
+      // Reset validation classes
+      document.querySelectorAll('.form-row').forEach(row => {
+        row.classList.remove('error');
+      });
+      
+      // Show/hide save card option based on authentication status
+      const saveCardOption = document.querySelector('.save-card-option');
+      if (authToken && currentUser) {
+        saveCardOption.style.display = 'block';
+      } else {
+        saveCardOption.style.display = 'none';
+      }
+      
+      currentProjectId = projectId;
+    }
+    
+    // Save card for future use
+    async function saveCardForUser(cardNumber, expiryDate, nameOnCard) {
+      if (!authToken) return;
+      
+      try {
+        const response = await fetch('/api/user/payment-methods', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({
+            cardNumber,
+            expiryDate,
+            nameOnCard
+          })
+        });
+        
+        if (!response.ok) {
+          console.error('Error saving card');
+        }
+      } catch (err) {
+        console.error('Error saving card:', err);
+      }
+    }
     
     // Add confetti animation for successful donations
     function showConfetti() {
