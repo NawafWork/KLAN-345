@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Charity Water Projects</title>
+  <script src="https://js.stripe.com/v3/"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -91,6 +92,85 @@
       padding: 3rem;
       color: #666;
     }
+    .donation-form {
+      display: none;
+      background-color: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .form-row {
+      margin-bottom: 1rem;
+    }
+    .form-row label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .form-row input, .form-row select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    #card-element {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+    .StripeElement--focus {
+      border-color: #4caf50;
+    }
+    #card-errors {
+      color: #e53935;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .success-message {
+      background-color: #dff0d8;
+      color: #3c763d;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+      display: none;
+    }
+    .error-message {
+      background-color: #f2dede;
+      color: #a94442;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+      display: none;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 500px;
+      position: relative;
+    }
+    .close-button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -101,11 +181,71 @@
   
   <div id="projects" class="loading">Loading projects...</div>
 
+  <!-- Donation Modal -->
+  <div id="donation-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" id="close-modal">&times;</span>
+      <h2>Make a Donation</h2>
+      <p id="donation-project-name"></p>
+      
+      <form id="donation-form" class="donation-form">
+        <div class="form-row">
+          <label for="donation-amount">Donation Amount ($)</label>
+          <input type="number" id="donation-amount" min="5" step="5" value="25" required>
+        </div>
+        
+        <div class="form-row">
+          <label for="donor-name">Your Name</label>
+          <input type="text" id="donor-name" required>
+        </div>
+        
+        <div class="form-row">
+          <label for="donor-email">Email Address</label>
+          <input type="email" id="donor-email" required>
+        </div>
+        
+        <div class="form-row">
+          <label for="card-element">Credit or Debit Card</label>
+          <div id="card-element"></div>
+          <div id="card-errors" role="alert"></div>
+        </div>
+        
+        <button type="submit" id="donate-button" class="button">Donate Now</button>
+      </form>
+      
+      <div id="success-message" class="success-message">
+        <h3>Thank you for your donation!</h3>
+        <p>Your contribution will make a real difference in providing clean water to communities in need.</p>
+      </div>
+      
+      <div id="error-message" class="error-message">
+        <h3>There was a problem processing your donation</h3>
+        <p id="error-details"></p>
+      </div>
+    </div>
+  </div>
+
   <script>
+    let stripe;
+    let cardElement;
+    let projectsData = [];
+    let currentProjectId;
+    
+    // Initialize Stripe
+    fetch('/api/payment/config')
+      .then(res => res.json())
+      .then(data => {
+        stripe = Stripe(data.publishableKey);
+      })
+      .catch(err => {
+        console.error('Error loading Stripe configuration:', err);
+      });
+    
     // Fetch projects from API
     fetch('/api/projects')
       .then(res => res.json())
       .then(projects => {
+        projectsData = projects;
         const projectsContainer = document.getElementById('projects');
         projectsContainer.className = '';
         projectsContainer.innerHTML = '';
@@ -138,7 +278,7 @@
               <div class="progress-bar" style="width: ${percentRaised}%"></div>
             </div>
             
-            <button class="button" onclick="alert('Donation feature coming soon!')">Donate Now</button>
+            <button class="button donate-button" data-project-id="${project.id}">Donate Now</button>
           `;
           
           projectsContainer.appendChild(projectEl);
@@ -150,11 +290,148 @@
             bar.style.width = bar.style.width;
           });
         }, 100);
+        
+        // Add event listeners to donate buttons
+        document.querySelectorAll('.donate-button').forEach(button => {
+          button.addEventListener('click', function() {
+            const projectId = this.getAttribute('data-project-id');
+            const project = projectsData.find(p => p.id === projectId);
+            
+            // Show donation modal
+            document.getElementById('donation-project-name').textContent = `Project: ${project.name}`;
+            document.getElementById('donation-form').style.display = 'block';
+            document.getElementById('success-message').style.display = 'none';
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('donation-modal').style.display = 'block';
+            
+            // Initialize Stripe elements if not already done
+            if (!cardElement) {
+              const elements = stripe.elements();
+              cardElement = elements.create('card');
+              cardElement.mount('#card-element');
+              
+              // Handle real-time validation errors
+              cardElement.on('change', function(event) {
+                const displayError = document.getElementById('card-errors');
+                if (event.error) {
+                  displayError.textContent = event.error.message;
+                } else {
+                  displayError.textContent = '';
+                }
+              });
+            }
+            
+            currentProjectId = projectId;
+          });
+        });
       })
       .catch(err => {
         console.error('Error fetching projects:', err);
         document.getElementById('projects').innerHTML = 'Error loading projects. Please try again.';
       });
+      
+    // Close modal when X is clicked
+    document.getElementById('close-modal').addEventListener('click', function() {
+      document.getElementById('donation-modal').style.display = 'none';
+    });
+    
+    // Close modal when clicking outside of it
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('donation-modal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+    
+    // Handle donation form submission
+    document.getElementById('donation-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const donateButton = document.getElementById('donate-button');
+      donateButton.disabled = true;
+      donateButton.textContent = 'Processing...';
+      
+      const amount = document.getElementById('donation-amount').value;
+      const name = document.getElementById('donor-name').value;
+      const email = document.getElementById('donor-email').value;
+      
+      // Create payment intent on server
+      fetch('/api/payment/create-intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          amount,
+          projectId: currentProjectId
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        // Use Stripe to confirm the payment
+        return stripe.confirmCardPayment(data.clientSecret, {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name,
+              email
+            }
+          }
+        });
+      })
+      .then(result => {
+        if (result.error) {
+          // Show error message
+          document.getElementById('error-details').textContent = result.error.message;
+          document.getElementById('error-message').style.display = 'block';
+          document.getElementById('donation-form').style.display = 'none';
+          throw new Error(result.error.message);
+        } else {
+          // Payment succeeded, create donation record on server
+          return fetch('/api/payment/process', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              paymentMethodId: result.paymentIntent.payment_method,
+              amount,
+              projectId: currentProjectId,
+              name,
+              email
+            })
+          });
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          // Show success message
+          document.getElementById('success-message').style.display = 'block';
+          document.getElementById('donation-form').style.display = 'none';
+          
+          // Refresh projects after 2 seconds
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
+        } else {
+          // Show error message
+          document.getElementById('error-details').textContent = data.message;
+          document.getElementById('error-message').style.display = 'block';
+          document.getElementById('donation-form').style.display = 'none';
+        }
+      })
+      .catch(err => {
+        console.error('Error processing payment:', err);
+        document.getElementById('error-details').textContent = err.message || 'An unexpected error occurred';
+        document.getElementById('error-message').style.display = 'block';
+        document.getElementById('donation-form').style.display = 'none';
+      })
+      .finally(() => {
+        donateButton.disabled = false;
+        donateButton.textContent = 'Donate Now';
+      });
+    });
   </script>
 </body>
 </html>

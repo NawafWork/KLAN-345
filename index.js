@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const payments = require('./payments');
 
 const app = express();
 
@@ -77,6 +79,103 @@ app.get('/api/projects/:id', (req, res) => {
   res.json(project);
 });
 
+// Payment endpoints
+app.post('/api/payment/create-intent', async (req, res) => {
+  try {
+    const { amount, projectId } = req.body;
+    
+    if (!amount || !projectId) {
+      return res.status(400).json({ message: 'Amount and projectId are required' });
+    }
+    
+    const project = projects.find(p => p.id === projectId);
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+    
+    // Convert dollars to cents for Stripe
+    const amountInCents = Math.round(parseFloat(amount) * 100);
+    
+    const paymentIntent = await payments.createPaymentIntent(amountInCents, 'usd', {
+      projectId,
+      projectName: project.name
+    });
+    
+    res.json({
+      clientSecret: paymentIntent.client_secret,
+      amount: amountInCents,
+      id: paymentIntent.id
+    });
+  } catch (error) {
+    console.error('Payment intent error:', error);
+    res.status(500).json({ message: 'Error creating payment intent', error: error.message });
+  }
+});
+
+app.post('/api/payment/process', async (req, res) => {
+  try {
+    const { paymentMethodId, amount, projectId, email, name } = req.body;
+    
+    if (!paymentMethodId || !amount || !projectId) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+    
+    const project = projects.find(p => p.id === projectId);
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+    
+    // Convert dollars to cents for Stripe
+    const amountInCents = Math.round(parseFloat(amount) * 100);
+    
+    const result = await payments.processDonation(paymentMethodId, amountInCents, 'usd', {
+      projectId,
+      projectName: project.name,
+      donorEmail: email,
+      donorName: name
+    });
+    
+    if (result.success) {
+      // Create donation record
+      const donation = {
+        id: Date.now().toString(),
+        amount,
+        paymentIntentId: result.paymentIntentId,
+        email,
+        name,
+        projectId,
+        createdAt: new Date()
+      };
+      
+      donations.push(donation);
+      
+      // Update project raised amount
+      project.raisedAmount += parseFloat(amount);
+      
+      res.status(200).json({ 
+        success: true, 
+        donation,
+        message: 'Thank you for your donation!' 
+      });
+    } else {
+      res.status(400).json({ 
+        success: false, 
+        message: 'Payment failed', 
+        error: result.error 
+      });
+    }
+  } catch (error) {
+    console.error('Payment processing error:', error);
+    res.status(500).json({ message: 'Error processing payment', error: error.message });
+  }
+});
+
+app.get('/api/payment/config', (req, res) => {
+  res.json({
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
+  });
+});
+
 // Donations
 app.post('/api/donations', (req, res) => {
   try {
@@ -112,6 +211,11 @@ app.post('/api/donations', (req, res) => {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
   }
+});
+
+// Get all donations
+app.get('/api/donations', (req, res) => {
+  res.json(donations);
 });
 
 // User Authentication (simplified)
