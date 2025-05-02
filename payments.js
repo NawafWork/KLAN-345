@@ -1,4 +1,9 @@
-require('dotenv').config();
+try {
+  require('dotenv').config();
+} catch (error) {
+  console.log('No .env file found, using environment variables');
+}
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 /**
