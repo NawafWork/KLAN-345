@@ -4,148 +4,192 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Charity Water Projects</title>
-  <!-- Removed Stripe.js since we're using a mock payment system -->
+  <!-- Add modern fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Add Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --primary-color: #2096F3;
+      --secondary-color: #1565c0;
+      --success-color: #4caf50;
+      --error-color: #f44336;
+      --text-color: #333;
+      --light-gray: #f9f9f9;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
     body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      max-width: 800px;
+      font-family: 'Poppins', Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--light-gray);
+      padding: 0;
+      margin: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
       margin: 0 auto;
-      background-color: #f9f9f9;
-      color: #333;
+      padding: 2rem;
     }
-    .project {
-      border: 1px solid #ccc;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      border-radius: 8px;
-      background-color: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
-    .project:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    .progress {
-      background-color: #f0f0f0;
-      border-radius: 4px;
-      height: 20px;
-      margin-top: 15px;
-    }
-    .progress-bar {
-      background-color: #4caf50;
-      height: 100%;
-      border-radius: 4px;
-      transition: width 1s ease-in-out;
-    }
-    h1 {
-      color: #2c3e50;
-      margin-bottom: 1.5rem;
-      text-align: center;
-      font-size: 2.5rem;
-    }
-    .header {
+    
+    .hero {
+      background: linear-gradient(135deg, #2096F3 0%, #1565c0 100%);
+      color: white;
+      padding: 4rem 2rem;
       text-align: center;
       margin-bottom: 2rem;
     }
-    .header p {
-      color: #666;
-      font-size: 1.1rem;
-      max-width: 600px;
+    
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
       margin: 0 auto;
+      opacity: 0.9;
     }
-    .button {
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-top: 10px;
-      transition: background-color 0.3s;
+    
+    .projects-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
     }
-    .button:hover {
-      background-color: #388e3c;
+    
+    .project {
+      background-color: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
     }
+    
+    .project:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .project-image {
+      height: 200px;
+      background-color: #e0e0e0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    
+    .project:hover .project-image img {
+      transform: scale(1.05);
+    }
+    
+    .project-content {
+      padding: 1.5rem;
+    }
+    
+    .project-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+    
+    .project-description {
+      margin-bottom: 1.5rem;
+      color: #666;
+    }
+    
+    .progress {
+      background-color: #e0e0e0;
+      border-radius: 50px;
+      height: 10px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      background: linear-gradient(to right, #4caf50, #8bc34a);
+      height: 100%;
+      border-radius: 50px;
+      transition: width 1.5s ease-in-out;
+    }
+    
     .stats {
       display: flex;
       justify-content: space-between;
-      margin: 1rem 0;
+      margin-bottom: 1.5rem;
     }
+    
     .stats div {
       text-align: center;
-      flex: 1;
     }
+    
     .stats .value {
       font-size: 1.5rem;
-      font-weight: bold;
-      color: #2c3e50;
+      font-weight: 700;
+      color: var(--primary-color);
     }
+    
     .stats .label {
-      color: #666;
       font-size: 0.9rem;
+      color: #666;
+      font-weight: 500;
     }
+    
+    .button {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      width: 100%;
+    }
+    
+    .button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+    
+    .button i {
+      margin-right: 8px;
+    }
+    
     .loading {
       text-align: center;
       padding: 3rem;
       color: #666;
     }
-    .donation-form {
-      display: none;
-      background-color: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      margin-top: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .form-row {
+    
+    .loading i {
+      font-size: 2rem;
       margin-bottom: 1rem;
+      color: var(--primary-color);
     }
-    .form-row label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-      color: #2c3e50;
-    }
-    .form-row input, .form-row select {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 1rem;
-    }
-    #card-element {
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background-color: #fff;
-    }
-    .StripeElement--focus {
-      border-color: #4caf50;
-    }
-    #card-errors {
-      color: #e53935;
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-    }
-    .success-message {
-      background-color: #dff0d8;
-      color: #3c763d;
-      padding: 1rem;
-      border-radius: 4px;
-      margin-top: 1rem;
-      display: none;
-    }
-    .error-message {
-      background-color: #f2dede;
-      color: #a94442;
-      padding: 1rem;
-      border-radius: 4px;
-      margin-top: 1rem;
-      display: none;
-    }
+    
+    /* Modal Styles */
     .modal {
       display: none;
       position: fixed;
@@ -154,88 +198,338 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s ease;
     }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
     .modal-content {
-      background-color: #fff;
-      margin: 10% auto;
+      background-color: white;
+      margin: 5% auto;
       padding: 2rem;
-      border-radius: 8px;
-      max-width: 500px;
+      border-radius: var(--border-radius);
+      max-width: 600px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
       position: relative;
+      animation: slideDown 0.3s ease;
     }
+    
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
     .close-button {
       position: absolute;
       top: 1rem;
-      right: 1rem;
+      right: 1.5rem;
       font-size: 1.5rem;
       cursor: pointer;
+      color: #777;
+      transition: var(--transition);
+    }
+    
+    .close-button:hover {
+      color: var(--error-color);
+    }
+    
+    .modal-title {
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      font-size: 1.8rem;
+    }
+    
+    .modal-subtitle {
+      color: #777;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+    
+    .donation-form {
+      display: block;
+    }
+    
+    .form-row {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-row label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #555;
+    }
+    
+    .form-row input, .form-row select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: var(--transition);
+      font-family: 'Poppins', Arial, sans-serif;
+    }
+    
+    .form-row input:focus, .form-row select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+    }
+    
+    .form-row.error input {
+      border-color: var(--error-color);
+    }
+    
+    .error-text {
+      color: var(--error-color);
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+    
+    .form-row.error .error-text {
+      display: block;
+    }
+    
+    .success-message, .error-message {
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      margin-top: 1.5rem;
+      text-align: center;
+      display: none;
+    }
+    
+    .success-message {
+      background-color: rgba(76, 175, 80, 0.1);
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      color: var(--success-color);
+    }
+    
+    .error-message {
+      background-color: rgba(244, 67, 54, 0.1);
+      border: 1px solid rgba(244, 67, 54, 0.3);
+      color: var(--error-color);
+    }
+    
+    .success-message h3, .error-message h3 {
+      margin-bottom: 0.5rem;
+    }
+    
+    .success-message i, .error-message i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    /* Footer */
+    .footer {
+      background-color: #333;
+      color: white;
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .footer-logo i {
+      margin-right: 10px;
+      color: var(--primary-color);
+    }
+    
+    .footer-description {
+      margin-bottom: 1.5rem;
+      opacity: 0.8;
+    }
+    
+    .footer h4 {
+      margin-bottom: 1.2rem;
+      font-size: 1.2rem;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 0.8rem;
+    }
+    
+    .footer-links a {
+      color: white;
+      opacity: 0.8;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .footer-links a:hover {
+      opacity: 1;
+      color: var(--primary-color);
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      margin-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .projects-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .modal-content {
+        width: 90%;
+        margin: 10% auto;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>💧 Charity Water Projects</h1>
+  <div class="hero">
+    <h1><i class="fas fa-tint"></i> Charity Water Projects</h1>
     <p>Help provide clean water to communities in need around the world through our charitable projects.</p>
   </div>
   
-  <div id="projects" class="loading">Loading projects...</div>
+  <div class="container">
+    <div id="projects" class="loading">
+      <i class="fas fa-circle-notch fa-spin"></i>
+      <p>Loading projects...</p>
+    </div>
+  </div>
 
   <!-- Donation Modal -->
   <div id="donation-modal" class="modal">
     <div class="modal-content">
-      <span class="close-button" id="close-modal">&times;</span>
-      <h2>Make a Donation</h2>
-      <p id="donation-project-name"></p>
+      <span class="close-button" id="close-modal"><i class="fas fa-times"></i></span>
+      <h2 class="modal-title">Make a Donation</h2>
+      <p class="modal-subtitle" id="donation-project-name"></p>
       
       <form id="donation-form" class="donation-form">
         <div class="form-row">
-          <label for="donation-amount">Donation Amount ($)</label>
+          <label for="donation-amount"><i class="fas fa-dollar-sign"></i> Donation Amount ($)</label>
           <input type="number" id="donation-amount" min="5" step="5" value="25" required>
+          <div class="error-text">Please enter a valid amount (minimum $5)</div>
         </div>
         
         <div class="form-row">
-          <label for="donor-name">Your Name</label>
+          <label for="donor-name"><i class="fas fa-user"></i> Your Name</label>
           <input type="text" id="donor-name" required>
+          <div class="error-text">Please enter your name</div>
         </div>
         
         <div class="form-row">
-          <label for="donor-email">Email Address</label>
+          <label for="donor-email"><i class="fas fa-envelope"></i> Email Address</label>
           <input type="email" id="donor-email" required>
+          <div class="error-text">Please enter a valid email address</div>
         </div>
         
         <div class="form-row">
-          <label for="mock-card-number">Card Number</label>
-          <input type="text" id="mock-card-number" placeholder="4242 4242 4242 4242" required>
+          <label for="mock-card-number"><i class="fas fa-credit-card"></i> Card Number</label>
+          <input type="text" id="mock-card-number" placeholder="4242 4242 4242 4242" maxlength="19" required>
+          <div class="error-text">Please enter a valid 16-digit card number</div>
         </div>
         
-        <div class="form-row" style="display: flex; gap: 10px;">
+        <div class="form-row" style="display: flex; gap: 15px;">
           <div style="flex: 1;">
-            <label for="mock-card-expiry">Expiration (MM/YY)</label>
-            <input type="text" id="mock-card-expiry" placeholder="12/25" required>
+            <label for="mock-card-expiry"><i class="fas fa-calendar-alt"></i> Expiration (MM/YY)</label>
+            <input type="text" id="mock-card-expiry" placeholder="MM/YY" maxlength="5" required>
+            <div class="error-text">Please enter a valid expiration date (MM/YY)</div>
           </div>
           <div style="flex: 1;">
-            <label for="mock-card-cvc">CVC</label>
-            <input type="text" id="mock-card-cvc" placeholder="123" required>
+            <label for="mock-card-cvc"><i class="fas fa-lock"></i> CVC</label>
+            <input type="text" id="mock-card-cvc" placeholder="123" maxlength="3" required>
+            <div class="error-text">Please enter a valid 3-digit CVC</div>
           </div>
         </div>
         
-        <button type="submit" id="donate-button" class="button">Donate Now</button>
+        <button type="submit" id="donate-button" class="button">
+          <i class="fas fa-heart"></i> Donate Now
+        </button>
       </form>
       
       <div id="success-message" class="success-message">
+        <i class="fas fa-check-circle"></i>
         <h3>Thank you for your donation!</h3>
-        <p>Your contribution will make a real difference in providing clean water to communities in need.</p>
+        <p>Your contribution will make a real difference in providing clean water to communities in need. A confirmation email has been sent to your email address.</p>
       </div>
       
       <div id="error-message" class="error-message">
+        <i class="fas fa-exclamation-circle"></i>
         <h3>There was a problem processing your donation</h3>
         <p id="error-details"></p>
       </div>
     </div>
   </div>
 
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <div class="footer-logo"><i class="fas fa-tint"></i> Charity Water</div>
+        <p class="footer-description">Our mission is to bring clean and safe drinking water to people in developing countries.</p>
+      </div>
+      
+      <div>
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Our Projects</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Get Involved</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4>Connect With Us</h4>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+          <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+          <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+          <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2023 Charity Water. All rights reserved.</p>
+    </div>
+  </footer>
+
   <script>
+    // Project data and functions
     let projectsData = [];
     let currentProjectId;
     
@@ -244,18 +538,33 @@
       .then(res => res.json())
       .then(projects => {
         projectsData = projects;
-        const projectsContainer = document.getElementById('projects');
-        projectsContainer.className = '';
-        projectsContainer.innerHTML = '';
+        displayProjects(projects);
+      })
+      .catch(err => {
+        console.error('Error fetching projects:', err);
+        document.getElementById('projects').innerHTML = '<p>Error loading projects. Please try again.</p>';
+      });
+      
+    // Display projects on the page
+    function displayProjects(projects) {
+      const projectsContainer = document.getElementById('projects');
+      projectsContainer.className = 'projects-container';
+      projectsContainer.innerHTML = '';
+      
+      projects.forEach(project => {
+        const percentRaised = (project.raisedAmount / project.goalAmount) * 100;
         
-        projects.forEach(project => {
-          const percentRaised = (project.raisedAmount / project.goalAmount) * 100;
-          
-          const projectEl = document.createElement('div');
-          projectEl.className = 'project';
-          projectEl.innerHTML = `
-            <h2>${project.name}</h2>
-            <p>${project.description}</p>
+        const projectEl = document.createElement('div');
+        projectEl.className = 'project';
+        
+        // Use a placeholder image or you can use actual project images
+        projectEl.innerHTML = `
+          <div class="project-image">
+            <img src="https://source.unsplash.com/random/600x400/?water,charity,${project.name}" alt="${project.name}">
+          </div>
+          <div class="project-content">
+            <h2 class="project-title">${project.name}</h2>
+            <p class="project-description">${project.description}</p>
             
             <div class="stats">
               <div>
@@ -276,41 +585,79 @@
               <div class="progress-bar" style="width: ${percentRaised}%"></div>
             </div>
             
-            <button class="button donate-button" data-project-id="${project.id}">Donate Now</button>
-          `;
-          
-          projectsContainer.appendChild(projectEl);
-        });
+            <button class="button donate-button" data-project-id="${project.id}">
+              <i class="fas fa-heart"></i> Donate Now
+            </button>
+          </div>
+        `;
         
-        // Animate progress bars
-        setTimeout(() => {
-          document.querySelectorAll('.progress-bar').forEach(bar => {
-            bar.style.width = bar.style.width;
-          });
-        }, 100);
-        
-        // Add event listeners to donate buttons
-        document.querySelectorAll('.donate-button').forEach(button => {
-          button.addEventListener('click', function() {
-            const projectId = this.getAttribute('data-project-id');
-            const project = projectsData.find(p => p.id === projectId);
-            
-            // Show donation modal
-            document.getElementById('donation-project-name').textContent = `Project: ${project.name}`;
-            document.getElementById('donation-form').style.display = 'block';
-            document.getElementById('success-message').style.display = 'none';
-            document.getElementById('error-message').style.display = 'none';
-            document.getElementById('donation-modal').style.display = 'block';
-            
-            currentProjectId = projectId;
-          });
-        });
-      })
-      .catch(err => {
-        console.error('Error fetching projects:', err);
-        document.getElementById('projects').innerHTML = 'Error loading projects. Please try again.';
+        projectsContainer.appendChild(projectEl);
       });
       
+      // Add event listeners to donate buttons
+      document.querySelectorAll('.donate-button').forEach(button => {
+        button.addEventListener('click', function() {
+          const projectId = this.getAttribute('data-project-id');
+          const project = projectsData.find(p => p.id === projectId);
+          
+          // Show donation modal
+          document.getElementById('donation-project-name').textContent = `Project: ${project.name}`;
+          document.getElementById('donation-form').style.display = 'block';
+          document.getElementById('success-message').style.display = 'none';
+          document.getElementById('error-message').style.display = 'none';
+          document.getElementById('donation-modal').style.display = 'block';
+          
+          // Reset form
+          document.getElementById('donation-form').reset();
+          document.getElementById('donation-amount').value = "25";
+          
+          // Reset validation classes
+          document.querySelectorAll('.form-row').forEach(row => {
+            row.classList.remove('error');
+          });
+          
+          currentProjectId = projectId;
+        });
+      });
+    }
+    
+    // Credit card input formatting
+    const cardNumberInput = document.getElementById('mock-card-number');
+    cardNumberInput.addEventListener('input', function(e) {
+      // Remove all non-digit characters
+      let value = this.value.replace(/\D/g, '');
+      
+      // Add a space after every 4 digits
+      if (value.length > 0) {
+        value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
+      }
+      
+      // Update the input value
+      this.value = value;
+    });
+    
+    // Expiry date formatting (MM/YY)
+    const expiryInput = document.getElementById('mock-card-expiry');
+    expiryInput.addEventListener('input', function(e) {
+      // Remove all non-digit characters
+      let value = this.value.replace(/\D/g, '');
+      
+      // Add a slash after the first 2 digits
+      if (value.length > 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+      }
+      
+      // Update the input value
+      this.value = value;
+    });
+    
+    // CVC input (numbers only)
+    const cvcInput = document.getElementById('mock-card-cvc');
+    cvcInput.addEventListener('input', function(e) {
+      // Remove all non-digit characters
+      this.value = this.value.replace(/\D/g, '');
+    });
+    
     // Close modal when X is clicked
     document.getElementById('close-modal').addEventListener('click', function() {
       document.getElementById('donation-modal').style.display = 'none';
@@ -324,17 +671,104 @@
       }
     });
     
+    // Form validation
+    function validateForm() {
+      let isValid = true;
+      
+      // Amount validation
+      const amountInput = document.getElementById('donation-amount');
+      const amountValue = parseFloat(amountInput.value);
+      
+      if (isNaN(amountValue) || amountValue < 5) {
+        amountInput.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        amountInput.parentElement.classList.remove('error');
+      }
+      
+      // Name validation
+      const nameInput = document.getElementById('donor-name');
+      if (!nameInput.value.trim()) {
+        nameInput.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        nameInput.parentElement.classList.remove('error');
+      }
+      
+      // Email validation
+      const emailInput = document.getElementById('donor-email');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      
+      if (!emailRegex.test(emailInput.value)) {
+        emailInput.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        emailInput.parentElement.classList.remove('error');
+      }
+      
+      // Card number validation
+      const cardInput = document.getElementById('mock-card-number');
+      const cardValue = cardInput.value.replace(/\s/g, '');
+      
+      if (cardValue.length !== 16 || !/^\d+$/.test(cardValue)) {
+        cardInput.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        cardInput.parentElement.classList.remove('error');
+      }
+      
+      // Expiry validation
+      const expiryInput = document.getElementById('mock-card-expiry');
+      const expiryValue = expiryInput.value;
+      const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+      
+      if (!expiryRegex.test(expiryValue)) {
+        expiryInput.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        // Check if expiry date is in the future
+        const [month, year] = expiryValue.split('/');
+        const expiryDate = new Date(2000 + parseInt(year), parseInt(month) - 1);
+        const currentDate = new Date();
+        
+        if (expiryDate < currentDate) {
+          expiryInput.parentElement.classList.add('error');
+          isValid = false;
+        } else {
+          expiryInput.parentElement.classList.remove('error');
+        }
+      }
+      
+      // CVC validation
+      const cvcInput = document.getElementById('mock-card-cvc');
+      const cvcValue = cvcInput.value;
+      
+      if (cvcValue.length !== 3 || !/^\d+$/.test(cvcValue)) {
+        cvcInput.parentElement.classList.add('error');
+        isValid = false;
+      } else {
+        cvcInput.parentElement.classList.remove('error');
+      }
+      
+      return isValid;
+    }
+    
     // Handle donation form submission
     document.getElementById('donation-form').addEventListener('submit', function(event) {
       event.preventDefault();
       
+      if (!validateForm()) {
+        return;
+      }
+      
       const donateButton = document.getElementById('donate-button');
       donateButton.disabled = true;
-      donateButton.textContent = 'Processing...';
+      donateButton.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
       
       const amount = document.getElementById('donation-amount').value;
       const name = document.getElementById('donor-name').value;
       const email = document.getElementById('donor-email').value;
+      const cardNumber = document.getElementById('mock-card-number').value.replace(/\s/g, '');
       
       // Create payment intent on server (using mock system)
       fetch('/api/payment/create-intent', {
@@ -371,10 +805,20 @@
           document.getElementById('success-message').style.display = 'block';
           document.getElementById('donation-form').style.display = 'none';
           
-          // Refresh projects after 2 seconds
+          // Refresh projects after 3 seconds
           setTimeout(() => {
-            location.reload();
-          }, 2000);
+            fetch('/api/projects')
+              .then(res => res.json())
+              .then(projects => {
+                projectsData = projects;
+                displayProjects(projects);
+                
+                // Close modal after refreshing projects
+                setTimeout(() => {
+                  document.getElementById('donation-modal').style.display = 'none';
+                }, 1000);
+              });
+          }, 3000);
         } else {
           // Show error message
           document.getElementById('error-details').textContent = data.message || 'Payment declined';
@@ -390,7 +834,7 @@
       })
       .finally(() => {
         donateButton.disabled = false;
-        donateButton.textContent = 'Donate Now';
+        donateButton.innerHTML = '<i class="fas fa-heart"></i> Donate Now';
       });
     });
   </script>
